@@ -8,9 +8,9 @@ export default function HomeScreen() {
     <SafeAreaView style={styles.safeArea}>
       <ScrollView style={styles.container}>
         <ThemedView style={styles.header}>
-          <IconSymbol name="line.horizontal.3" size={24} />
+          <IconSymbol name="line.horizontal.3" size={24} color={''} />
           <ThemedText type="title">Train Tracker</ThemedText>
-          <IconSymbol name="magnifyingglass" size={24} />
+          <IconSymbol name="magnifyingglass" size={24} color={''} />
         </ThemedView>
 
         <View style={styles.searchContainer}>
