@@ -1,98 +1,181 @@
-import { Image } from 'expo-image';
-import { Platform, StyleSheet } from 'react-native';
-
-import { HelloWave } from '@/components/hello-wave';
-import ParallaxScrollView from '@/components/parallax-scroll-view';
+import { View, Text, TextInput, TouchableOpacity, StyleSheet, ScrollView } from 'react-native';
 import { ThemedText } from '@/components/themed-text';
 import { ThemedView } from '@/components/themed-view';
-import { Link } from 'expo-router';
+import { IconSymbol } from '@/components/ui/icon-symbol';
 
 export default function HomeScreen() {
   return (
-    <ParallaxScrollView
-      headerBackgroundColor={{ light: '#A1CEDC', dark: '#1D3D47' }}
-      headerImage={
-        <Image
-          source={require('@/assets/images/partial-react-logo.png')}
-          style={styles.reactLogo}
-        />
-      }>
-      <ThemedView style={styles.titleContainer}>
-        <ThemedText type="title">Welcome!</ThemedText>
-        <HelloWave />
+    <ScrollView style={styles.container}>
+      <ThemedView style={styles.header}>
+        <ThemedText type="title">Train Tracker</ThemedText>
+        <IconSymbol name="magnifyingglass" size={24} />
       </ThemedView>
-      <ThemedView style={styles.stepContainer}>
-        <ThemedText type="subtitle">Step 1: Try it</ThemedText>
-        <ThemedText>
-          Edit <ThemedText type="defaultSemiBold">app/(tabs)/index.tsx</ThemedText> to see changes.
-          Press{' '}
-          <ThemedText type="defaultSemiBold">
-            {Platform.select({
-              ios: 'cmd + d',
-              android: 'cmd + m',
-              web: 'F12',
-            })}
-          </ThemedText>{' '}
-          to open developer tools.
-        </ThemedText>
-      </ThemedView>
-      <ThemedView style={styles.stepContainer}>
-        <Link href="/modal">
-          <Link.Trigger>
-            <ThemedText type="subtitle">Step 2: Explore</ThemedText>
-          </Link.Trigger>
-          <Link.Preview />
-          <Link.Menu>
-            <Link.MenuAction title="Action" icon="cube" onPress={() => alert('Action pressed')} />
-            <Link.MenuAction
-              title="Share"
-              icon="square.and.arrow.up"
-              onPress={() => alert('Share pressed')}
-            />
-            <Link.Menu title="More" icon="ellipsis">
-              <Link.MenuAction
-                title="Delete"
-                icon="trash"
-                destructive
-                onPress={() => alert('Delete pressed')}
-              />
-            </Link.Menu>
-          </Link.Menu>
-        </Link>
 
-        <ThemedText>
-          {`Tap the Explore tab to learn more about what's included in this starter app.`}
-        </ThemedText>
-      </ThemedView>
-      <ThemedView style={styles.stepContainer}>
-        <ThemedText type="subtitle">Step 3: Get a fresh start</ThemedText>
-        <ThemedText>
-          {`When you're ready, run `}
-          <ThemedText type="defaultSemiBold">npm run reset-project</ThemedText> to get a fresh{' '}
-          <ThemedText type="defaultSemiBold">app</ThemedText> directory. This will move the current{' '}
-          <ThemedText type="defaultSemiBold">app</ThemedText> to{' '}
-          <ThemedText type="defaultSemiBold">app-example</ThemedText>.
-        </ThemedText>
-      </ThemedView>
-    </ParallaxScrollView>
+      <View style={styles.searchContainer}>
+        <TextInput
+          style={styles.searchInput}
+          placeholder="Search train name or number"
+        />
+        <TouchableOpacity style={styles.trackButton}>
+          <Text style={styles.trackButtonText}>Track</Text>
+        </TouchableOpacity>
+      </View>
+
+      <View style={styles.cardsContainer}>
+        <TouchableOpacity style={styles.card}>
+          <IconSymbol name="text.book.closed" size={24} />
+          <Text>PNR Status</Text>
+        </TouchableOpacity>
+        <TouchableOpacity style={styles.card}>
+          <IconSymbol name="dot.radiowaves.up.forward" size={24} />
+          <Text>Live Status</Text>
+        </TouchableOpacity>
+        <TouchableOpacity style={styles.card}>
+          <IconSymbol name="map" size={24} />
+          <Text>Train Route</Text>
+        </TouchableOpacity>
+        <TouchableOpacity style={styles.card}>
+          <IconSymbol name="magnifyingglass" size={24} />
+          <Text>Station Search</Text>
+        </TouchableOpacity>
+      </View>
+
+      <View style={styles.infoContainer}>
+        <View style={styles.infoCard}>
+          <Text style={styles.infoCardTitle}>TOMORROW, 14 OCT</Text>
+          <View style={styles.trainInfo}>
+            <Text style={styles.trainName}>12002 - Shatabdi Exp</Text>
+            <Text style={styles.confirmed}>CONFIRMED</Text>
+          </View>
+          <View style={styles.routeInfo}>
+            <Text>06:00</Text>
+            <Text>------</Text>
+            <Text>11:50</Text>
+          </View>
+          <View style={styles.routeInfo}>
+            <Text>NDLS</Text>
+            <Text>BPL</Text>
+          </View>
+          <View style={styles.coachInfo}>
+            <Text>Coach: C12 | Seat: 44</Text>
+            <TouchableOpacity>
+              <Text style={styles.details}>Details {'>'}</Text>
+            </TouchableOpacity>
+          </View>
+        </View>
+      </View>
+
+      <View style={styles.recentSearchesContainer}>
+        <ThemedText type="subtitle">Recent Searches</ThemedText>
+        <View style={styles.recentSearchCard}>
+          <Text>NDLS - HW</Text>
+          <Text>2 hours ago</Text>
+        </View>
+        <View style={styles.recentSearchCard}>
+          <Text>12951</Text>
+          <Text>Yesterday</Text>
+        </View>
+        <View style={styles.recentSearchCard}>
+          <Text>BPL</Text>
+          <Text>2 days ago</Text>
+        </View>
+      </View>
+    </ScrollView>
   );
 }
 
 const styles = StyleSheet.create({
-  titleContainer: {
+  container: {
+    flex: 1,
+    backgroundColor: '#f5f5f5',
+  },
+  header: {
     flexDirection: 'row',
+    justifyContent: 'space-between',
     alignItems: 'center',
-    gap: 8,
+    padding: 16,
+    backgroundColor: 'white',
   },
-  stepContainer: {
-    gap: 8,
-    marginBottom: 8,
+  searchContainer: {
+    flexDirection: 'row',
+    padding: 16,
   },
-  reactLogo: {
-    height: 178,
-    width: 290,
-    bottom: 0,
-    left: 0,
-    position: 'absolute',
+  searchInput: {
+    flex: 1,
+    borderWidth: 1,
+    borderColor: '#ccc',
+    borderRadius: 8,
+    padding: 12,
+    marginRight: 8,
+  },
+  trackButton: {
+    backgroundColor: '#007bff',
+    borderRadius: 8,
+    padding: 12,
+    justifyContent: 'center',
+  },
+  trackButtonText: {
+    color: 'white',
+  },
+  cardsContainer: {
+    flexDirection: 'row',
+    flexWrap: 'wrap',
+    justifyContent: 'space-around',
+    padding: 8,
+  },
+  card: {
+    backgroundColor: 'white',
+    borderRadius: 8,
+    padding: 16,
+    margin: 8,
+    alignItems: 'center',
+    width: '40%',
+  },
+  infoContainer: {
+    padding: 16,
+  },
+  infoCard: {
+    backgroundColor: 'white',
+    borderRadius: 8,
+    padding: 16,
+  },
+  infoCardTitle: {
+    fontWeight: 'bold',
+  },
+  trainInfo: {
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    marginVertical: 8,
+  },
+  trainName: {
+    fontWeight: 'bold',
+    fontSize: 16,
+  },
+  confirmed: {
+    color: 'green',
+    fontWeight: 'bold',
+  },
+  routeInfo: {
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+  },
+  coachInfo: {
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    marginTop: 8,
+  },
+  details: {
+    color: '#007bff',
+  },
+  recentSearchesContainer: {
+    padding: 16,
+  },
+  recentSearchCard: {
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    backgroundColor: 'white',
+    borderRadius: 8,
+    padding: 12,
+    marginTop: 8,
   },
 });
