@@ -1,9 +1,8 @@
 import { Tabs } from 'expo-router';
 import React from 'react';
 
-import { HapticTab } from '@/components/haptic-tab';
-import { IconSymbol } from '@/components/ui/icon-symbol';
-import { Colors } from '@/constants/theme';
+import { TabBarIcon } from '@/components/navigation/tab-bar-icon';
+import { AppColors } from '@/constants/colors';
 import { useColorScheme } from '@/hooks/use-color-scheme';
 
 export default function TabLayout() {
@@ -12,40 +11,46 @@ export default function TabLayout() {
   return (
     <Tabs
       screenOptions={{
-        tabBarActiveTintColor: Colors[colorScheme ?? 'light'].tint,
+        tabBarActiveTintColor: AppColors.accent,
         headerShown: false,
-        tabBarButton: HapticTab,
         tabBarStyle: {
-          backgroundColor: Colors[colorScheme ?? 'light'].background,
-          borderTopColor: Colors[colorScheme ?? 'light'].border,
+          backgroundColor: AppColors.primary,
         },
       }}>
       <Tabs.Screen
         name="index"
         options={{
           title: 'Home',
-          tabBarIcon: ({ color }) => <IconSymbol size={28} name="house.fill" color={color} />,
+          tabBarIcon: ({ color, focused }) => (
+            <TabBarIcon name={focused ? 'home' : 'home-outline'} color={color} />
+          ),
         }}
       />
-      <Tabs.Screen
+       <Tabs.Screen
         name="live"
         options={{
           title: 'Live',
-          tabBarIcon: ({ color }) => <IconSymbol size={28} name="dot.radiowaves.up.forward" color={color} />,
+          tabBarIcon: ({ color, focused }) => (
+            <TabBarIcon name={focused ? 'train' : 'train-outline'} color={color} />
+          ),
         }}
       />
-      <Tabs.Screen
+       <Tabs.Screen
         name="pnr"
         options={{
           title: 'PNR',
-          tabBarIcon: ({ color }) => <IconSymbol size={28} name="character.book.closed.fill" color={color} />,
+          tabBarIcon: ({ color, focused }) => (
+            <TabBarIcon name={focused ? 'ticket' : 'ticket-outline'} color={color} />
+          ),
         }}
       />
-      <Tabs.Screen
+       <Tabs.Screen
         name="settings"
         options={{
           title: 'Settings',
-          tabBarIcon: ({ color }) => <IconSymbol size={28} name="gear" color={color} />,
+          tabBarIcon: ({ color, focused }) => (
+            <TabBarIcon name={focused ? 'settings' : 'settings-outline'} color={color} />
+          ),
         }}
       />
     </Tabs>

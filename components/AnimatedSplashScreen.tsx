@@ -4,12 +4,12 @@ import { ThemedText } from '@/components/themed-text';
 import { AppColors } from '@/constants/colors';
 
 export function AnimatedSplashScreen() {
-    const translateX = useRef(new Animated.Value(-100)).current;
+    const translateX = useRef(new Animated.Value(Dimensions.get('window').width)).current;
 
     useEffect(() => {
         Animated.loop(
             Animated.timing(translateX, {
-                toValue: Dimensions.get('window').width,
+                toValue: -100,
                 duration: 3000,
                 easing: Easing.linear,
                 useNativeDriver: true,
@@ -52,5 +52,6 @@ const styles = StyleSheet.create({
     },
     trainIcon: {
         fontSize: 50,
+        transform: [{ scaleX: -1 }],
     },
 });
