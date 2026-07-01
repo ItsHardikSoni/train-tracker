@@ -1,18 +1,20 @@
+import { View, Text, TextInput, TouchableOpacity, StyleSheet, ScrollView, SafeAreaView } from 'react-native';
 import { ThemedText } from '@/components/themed-text';
 import { IconSymbol } from '@/components/ui/icon-symbol';
 import { AppColors } from '@/constants/colors';
-import { ScrollView, StyleSheet, Text, TextInput, TouchableOpacity, View } from 'react-native';
 
 export default function LiveScreen() {
   return (
+    <SafeAreaView style={styles.safeArea}>
       <ScrollView style={styles.container}>
         <ThemedText style={styles.title} type="title">Live Train Status</ThemedText>
 
         <View style={styles.searchContainer}>
-          <IconSymbol name="magnifyingglass" size={24} color={AppColors.secondary} style={styles.inputIcon} />
+          <IconSymbol name="magnifyingglass" size={24} color={AppColors.textSecondary} style={styles.inputIcon} />
           <TextInput
             style={styles.searchInput}
             placeholder="Enter Train Name or Number"
+            placeholderTextColor={AppColors.textSecondary}
           />
         </View>
 
@@ -29,7 +31,7 @@ export default function LiveScreen() {
             </View>
             <Text style={styles.updateTime}>Last updated: 2 mins ago</Text>
             <View style={styles.statusRow}>
-                <Text style={{color: AppColors.primary}}>➡️ On Time</Text>
+                <Text style={{color: AppColors.success}}>➡️ On Time</Text>
             </View>
             <View style={styles.stationInfo}>
                 <Text style={styles.stationText}>GWL - Gwalior</Text>
@@ -42,45 +44,48 @@ export default function LiveScreen() {
         <View style={styles.recentSearchesContainer}>
           <ThemedText type="subtitle">Recent Searches</ThemedText>
            <View style={styles.recentSearchCard}>
-            <IconSymbol name="arrow.counterclockwise" size={24} color={AppColors.secondary}/>
+            <IconSymbol name="arrow.counterclockwise" size={24} color={AppColors.textSecondary}/>
             <View style={styles.recentInfo}>
                 <Text style={styles.recentTrain}>12951</Text>
                 <Text style={styles.recentDetail}>Yesterday</Text>
             </View>
-            <IconSymbol name="chevron.right" size={20} color={AppColors.secondary}/>
+            <IconSymbol name="chevron.right" size={20} color={AppColors.textSecondary}/>
           </View>
           <View style={styles.recentSearchCard}>
-            <IconSymbol name="arrow.counterclockwise" size={24} color={AppColors.secondary}/>
+            <IconSymbol name="arrow.counterclockwise" size={24} color={AppColors.textSecondary}/>
              <View style={styles.recentInfo}>
                 <Text style={styles.recentTrain}>22435</Text>
                 <Text style={styles.recentDetail}>2 days ago</Text>
             </View>
-            <IconSymbol name="chevron.right" size={20} color={AppColors.secondary}/>
+            <IconSymbol name="chevron.right" size={20} color={AppColors.textSecondary}/>
           </View>
         </View>
       </ScrollView>
+    </SafeAreaView>
   );
 }
 
 const styles = StyleSheet.create({
-container: {
+  safeArea: {
+    flex: 1,
+    backgroundColor: AppColors.background,
+  },
+  container: {
     flex: 1,
     padding: 16,
-        backgroundColor: AppColors.background,
-
   },
   title: {
     marginBottom: 24,
     textAlign: 'center',
-    color: AppColors.primary,
+    color: AppColors.textPrimary,
   },
   searchContainer: {
     flexDirection: 'row',
     alignItems: 'center',
-    backgroundColor: 'white',
+    backgroundColor: AppColors.surface,
     borderRadius: 8,
     borderWidth: 1,
-    borderColor: AppColors.secondary,
+    borderColor: AppColors.border,
     paddingHorizontal: 10,
     marginBottom: 16,
   },
@@ -91,7 +96,7 @@ container: {
     flex: 1,
     height: 50,
     fontSize: 16,
-    color: AppColors.primary,
+    color: AppColors.textPrimary,
   },
   trackButton: {
     backgroundColor: AppColors.primary,
@@ -101,21 +106,21 @@ container: {
     marginBottom: 24,
   },
   trackButtonText: {
-    color: 'white',
+    color: AppColors.textPrimary,
     fontWeight: 'bold',
     fontSize: 16,
   },
   liveStatusContainer: {
-    backgroundColor: 'white',
+    backgroundColor: AppColors.surface,
     borderRadius: 8,
     padding: 16,
     marginBottom: 24,
     borderWidth: 1,
-    borderColor: AppColors.secondary,
+    borderColor: AppColors.border,
   },
   liveStatusTitle: {
     fontWeight: 'bold',
-    color: AppColors.secondary,
+    color: AppColors.textSecondary,
     marginBottom: 12,
   },
   trainCard: {},
@@ -128,22 +133,22 @@ container: {
   trainName: {
     fontWeight: 'bold',
     fontSize: 18,
-    color: AppColors.primary,
+    color: AppColors.textPrimary,
   },
   liveIndicator: {
-      color: AppColors.accent1,
+      color: AppColors.success,
       fontWeight: 'bold',
   },
   updateTime: {
-      color: AppColors.secondary,
+      color: AppColors.textSecondary,
       fontSize: 12,
       marginBottom: 12,
   },
   statusRow: {
-      backgroundColor: AppColors.accent2,
       padding: 8,
       borderRadius: 4,
       marginBottom: 12,
+      alignSelf: 'flex-start',
   },
   stationInfo: {
       flexDirection: 'row',
@@ -153,24 +158,24 @@ container: {
   },
   stationText: {
       fontWeight: 'bold',
-      color: AppColors.primary,
+      color: AppColors.textPrimary,
   },
   platform: {
-      color: AppColors.secondary,
+      color: AppColors.textSecondary,
   },
   nextStation: {
-      color: AppColors.primary,
+      color: AppColors.textPrimary,
   },
   recentSearchesContainer: {},
   recentSearchCard: {
     flexDirection: 'row',
     alignItems: 'center',
-    backgroundColor: 'white',
+    backgroundColor: AppColors.surface,
     borderRadius: 8,
     padding: 16,
     marginBottom: 8,
     borderWidth: 1,
-    borderColor: AppColors.secondary,
+    borderColor: AppColors.border,
   },
    recentInfo: {
       flex: 1,
@@ -178,9 +183,9 @@ container: {
   },
   recentTrain:{
       fontWeight: 'bold',
-      color: AppColors.primary,
+      color: AppColors.textPrimary,
   },
   recentDetail: {
-      color: AppColors.secondary,
+      color: AppColors.textSecondary,
   }
 });

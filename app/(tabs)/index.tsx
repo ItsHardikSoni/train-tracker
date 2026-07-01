@@ -8,15 +8,16 @@ export default function HomeScreen() {
   return (
       <ScrollView style={styles.container}>
         <ThemedView style={styles.header}>
-          <IconSymbol name="line.horizontal.3" size={24} color={AppColors.background} />
-          <ThemedText type="title">Train Tracker</ThemedText>
-          <IconSymbol name="magnifyingglass" size={24} color={AppColors.background} />
+          <IconSymbol name="line.horizontal.3" size={24} color={AppColors.textPrimary} />
+          <ThemedText style={styles.title} type="title">Train Tracker</ThemedText>
+          <IconSymbol name="magnifyingglass" size={24} color={AppColors.textPrimary} />
         </ThemedView>
 
         <View style={styles.searchContainer}>
           <TextInput
             style={styles.searchInput}
             placeholder="Search train name or number"
+            placeholderTextColor={AppColors.textSecondary}
           />
           <TouchableOpacity style={styles.trackButton}>
             <Text style={styles.trackButtonText}>Track</Text>
@@ -25,19 +26,19 @@ export default function HomeScreen() {
 
         <View style={styles.cardsContainer}>
           <TouchableOpacity style={styles.card}>
-            <IconSymbol name="text.book.closed" size={24} color={AppColors.primary} />
+            <IconSymbol name="text.book.closed" size={24} color={AppColors.accent} />
             <Text style={styles.cardText}>PNR Status</Text>
           </TouchableOpacity>
           <TouchableOpacity style={styles.card}>
-            <IconSymbol name="dot.radiowaves.up.forward" size={24} color={AppColors.primary} />
+            <IconSymbol name="dot.radiowaves.up.forward" size={24} color={AppColors.accent} />
             <Text style={styles.cardText}>Live Status</Text>
           </TouchableOpacity>
           <TouchableOpacity style={styles.card}>
-            <IconSymbol name="map" size={24} color={AppColors.primary} />
+            <IconSymbol name="map" size={24} color={AppColors.accent} />
             <Text style={styles.cardText}>Train Route</Text>
           </TouchableOpacity>
           <TouchableOpacity style={styles.card}>
-            <IconSymbol name="magnifyingglass" size={24} color={AppColors.primary} />
+            <IconSymbol name="magnifyingglass" size={24} color={AppColors.accent} />
             <Text style={styles.cardText}>Station Search</Text>
           </TouchableOpacity>
         </View>
@@ -59,7 +60,7 @@ export default function HomeScreen() {
               <Text style={styles.routeStation}>BPL</Text>
             </View>
             <View style={styles.coachInfo}>
-              <Text>Coach: C12 | Seat: 44</Text>
+              <Text style={{color: AppColors.textPrimary}}>Coach: C12 | Seat: 44</Text>
               <TouchableOpacity>
                 <Text style={styles.details}>Details {'>'}</Text>
               </TouchableOpacity>
@@ -70,16 +71,16 @@ export default function HomeScreen() {
         <View style={styles.recentSearchesContainer}>
         <ThemedText type="subtitle">Recent Searches</ThemedText>
         <View style={styles.recentSearchCard}>
-          <Text>NDLS - HW</Text>
-          <Text>2 hours ago</Text>
+          <Text style={{color: AppColors.textPrimary}}>NDLS - HW</Text>
+          <Text style={{color: AppColors.textSecondary}}>2 hours ago</Text>
         </View>
         <View style={styles.recentSearchCard}>
-          <Text>12951</Text>
-          <Text>Yesterday</Text>
+          <Text style={{color: AppColors.textPrimary}}>12951</Text>
+          <Text style={{color: AppColors.textSecondary}}>Yesterday</Text>
         </View>
         <View style={styles.recentSearchCard}>
-          <Text>BPL</Text>
-          <Text>2 days ago</Text>
+          <Text style={{color: AppColors.textPrimary}}>BPL</Text>
+          <Text style={{color: AppColors.textSecondary}}>2 days ago</Text>
         </View>
       </View>
       </ScrollView>
@@ -99,22 +100,27 @@ const styles = StyleSheet.create({
     paddingVertical: 12,
     backgroundColor: AppColors.primary,
   },
+  title: {
+    color: AppColors.textPrimary,
+    fontWeight: 'bold',
+  },
   searchContainer: {
     flexDirection: 'row',
     padding: 16,
     backgroundColor: AppColors.background,
     borderBottomWidth: 1,
-    borderBottomColor: AppColors.accent2,
+    borderBottomColor: AppColors.border,
   },
   searchInput: {
     flex: 1,
     borderWidth: 1,
-    borderColor: AppColors.secondary,
+    borderColor: AppColors.border,
     borderRadius: 8,
     paddingHorizontal: 12,
     paddingVertical: 10,
     marginRight: 8,
-    backgroundColor: 'white'
+    backgroundColor: AppColors.surface,
+    color: AppColors.textPrimary,
   },
   trackButton: {
     backgroundColor: AppColors.primary,
@@ -123,7 +129,7 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
   },
   trackButtonText: {
-    color: 'white',
+    color: AppColors.textPrimary,
     fontWeight: 'bold',
   },
   cardsContainer: {
@@ -133,42 +139,32 @@ const styles = StyleSheet.create({
     padding: 16,
   },
   card: {
-    backgroundColor: 'white',
+    backgroundColor: AppColors.surface,
     borderRadius: 8,
     padding: 16,
     alignItems: 'center',
     width: '48%',
     marginBottom: 12,
-    borderColor: AppColors.secondary,
+    borderColor: AppColors.border,
     borderWidth: 1,
-    shadowColor: '#000',
-    shadowOffset: { width: 0, height: 1 },
-    shadowOpacity: 0.2,
-    shadowRadius: 1.41,
-    elevation: 2,
   },
   cardText: {
     marginTop: 8,
-    color: AppColors.primary,
+    color: AppColors.textPrimary,
   },
   infoContainer: {
     paddingHorizontal: 16,
   },
   infoCard: {
-    backgroundColor: 'white',
+    backgroundColor: AppColors.surface,
     borderRadius: 8,
     padding: 16,
-    borderColor: AppColors.secondary,
+    borderColor: AppColors.border,
     borderWidth: 1,
-    shadowColor: '#000',
-    shadowOffset: { width: 0, height: 1 },
-    shadowOpacity: 0.2,
-    shadowRadius: 1.41,
-    elevation: 2,
   },
   infoCardDate: {
     fontWeight: 'bold',
-    color: AppColors.secondary,
+    color: AppColors.textSecondary,
     marginBottom: 8,
   },
   trainInfoRow: {
@@ -180,13 +176,13 @@ const styles = StyleSheet.create({
   trainName: {
     fontWeight: 'bold',
     fontSize: 18,
-    color: AppColors.primary,
+    color: AppColors.textPrimary,
   },
   confirmed: {
     color: AppColors.primary,
     fontWeight: 'bold',
     fontSize: 12,
-    backgroundColor: AppColors.accent1,
+    backgroundColor: AppColors.success,
     paddingHorizontal: 6,
     paddingVertical: 2,
     borderRadius: 4,
@@ -200,13 +196,13 @@ const styles = StyleSheet.create({
   routeTime: {
     fontWeight: 'bold',
     fontSize: 16,
-    color: AppColors.primary,
+    color: AppColors.textPrimary,
   },
   routeLine: {
-    color: AppColors.accent2,
+    color: AppColors.border,
   },
   routeStation: {
-    color: AppColors.secondary,
+    color: AppColors.textSecondary,
   },
   coachInfo: {
     flexDirection: 'row',
@@ -214,10 +210,10 @@ const styles = StyleSheet.create({
     marginTop: 12,
     paddingTop: 12,
     borderTopWidth: 1,
-    borderTopColor: AppColors.accent2,
+    borderTopColor: AppColors.border,
   },
   details: {
-    color: AppColors.primary,
+    color: AppColors.accent,
     fontWeight: 'bold',
   },
   recentSearchesContainer: {
@@ -226,16 +222,11 @@ const styles = StyleSheet.create({
   recentSearchCard: {
     flexDirection: 'row',
     justifyContent: 'space-between',
-    backgroundColor: 'white',
+    backgroundColor: AppColors.surface,
     borderRadius: 8,
     padding: 12,
     marginTop: 8,
-    borderColor: AppColors.secondary,
+    borderColor: AppColors.border,
     borderWidth: 1,
-    shadowColor: '#000',
-    shadowOffset: { width: 0, height: 1 },
-    shadowOpacity: 0.2,
-    shadowRadius: 1.41,
-    elevation: 2,
   },
 });
