@@ -1,6 +1,7 @@
 import { View, Text, TextInput, TouchableOpacity, StyleSheet, ScrollView, SafeAreaView } from 'react-native';
 import { ThemedText } from '@/components/themed-text';
 import { IconSymbol } from '@/components/ui/icon-symbol';
+import { AppColors } from '@/constants/colors';
 
 export default function PnrScreen() {
   return (
@@ -9,7 +10,7 @@ export default function PnrScreen() {
         <ThemedText style={styles.title} type="title">Check PNR Status</ThemedText>
 
         <View style={styles.pnrInputContainer}>
-          <IconSymbol name="text.book.closed" size={24} color="#888" style={styles.inputIcon} />
+          <IconSymbol name="text.book.closed" size={24} color={AppColors.secondary} style={styles.inputIcon} />
           <TextInput
             style={styles.pnrInput}
             placeholder="Enter 10-digit PNR Number"
@@ -63,20 +64,20 @@ export default function PnrScreen() {
             </TouchableOpacity>
           </View>
           <View style={styles.recentSearchCard}>
-            <IconSymbol name="arrow.counterclockwise" size={24} color="#888"/>
+            <IconSymbol name="arrow.counterclockwise" size={24} color={AppColors.secondary}/>
             <View style={styles.recentInfo}>
                 <Text style={styles.recentPnr}>6394102941</Text>
                 <Text style={styles.recentTrain}>Shatabdi Exp • 22 May</Text>
             </View>
-            <IconSymbol name="chevron.right" size={20} color="#888"/>
+            <IconSymbol name="chevron.right" size={20} color={AppColors.secondary}/>
           </View>
           <View style={styles.recentSearchCard}>
-            <IconSymbol name="arrow.counterclockwise" size={24} color="#888"/>
+            <IconSymbol name="arrow.counterclockwise" size={24} color={AppColors.secondary}/>
              <View style={styles.recentInfo}>
                 <Text style={styles.recentPnr}>8210394857</Text>
                 <Text style={styles.recentTrain}>Garib Rath • 18 May</Text>
             </View>
-            <IconSymbol name="chevron.right" size={20} color="#888"/>
+            <IconSymbol name="chevron.right" size={20} color={AppColors.secondary}/>
           </View>
         </View>
       </ScrollView>
@@ -87,7 +88,7 @@ export default function PnrScreen() {
 const styles = StyleSheet.create({
   safeArea: {
     flex: 1,
-    backgroundColor: '#f0f4f8',
+    backgroundColor: AppColors.background,
   },
   container: {
     flex: 1,
@@ -96,6 +97,7 @@ const styles = StyleSheet.create({
   title: {
     marginBottom: 24,
     textAlign: 'center',
+    color: AppColors.primary,
   },
   pnrInputContainer: {
     flexDirection: 'row',
@@ -103,7 +105,7 @@ const styles = StyleSheet.create({
     backgroundColor: 'white',
     borderRadius: 8,
     borderWidth: 1,
-    borderColor: '#ccc',
+    borderColor: AppColors.secondary,
     paddingHorizontal: 10,
     marginBottom: 16,
   },
@@ -114,9 +116,10 @@ const styles = StyleSheet.create({
     flex: 1,
     height: 50,
     fontSize: 16,
+    color: AppColors.primary,
   },
   checkStatusButton: {
-    backgroundColor: '#007bff',
+    backgroundColor: AppColors.primary,
     borderRadius: 8,
     paddingVertical: 14,
     alignItems: 'center',
@@ -132,14 +135,16 @@ const styles = StyleSheet.create({
     borderRadius: 8,
     padding: 16,
     marginBottom: 24,
+    borderWidth: 1,
+    borderColor: AppColors.secondary,
   },
   activeSearchTitle: {
     fontWeight: 'bold',
-    color: '#888',
+    color: AppColors.secondary,
     marginBottom: 4,
   },
   activePnr: {
-    color: '#007bff',
+    color: AppColors.primary,
     fontWeight: 'bold',
     marginBottom: 16,
   },
@@ -150,9 +155,10 @@ const styles = StyleSheet.create({
     fontWeight: 'bold',
     fontSize: 16,
     marginBottom: 4,
+    color: AppColors.primary,
   },
   trainDate: {
-    color: '#888',
+    color: AppColors.secondary,
     marginBottom: 8,
   },
   routeContainer: {
@@ -164,31 +170,33 @@ const styles = StyleSheet.create({
   station: {
     fontWeight: 'bold',
     fontSize: 16,
+    color: AppColors.primary,
   },
    stationName: {
-    color: '#555',
+    color: AppColors.secondary,
     fontSize: 12,
   },
   duration: {
-    color: '#888',
+    color: AppColors.secondary,
   },
   passengerDetailsContainer: {
     borderTopWidth: 1,
-    borderTopColor: '#e0e0e0',
+    borderTopColor: AppColors.accent2,
     paddingTop: 16,
   },
   passengerRow: {
     flexDirection: 'row',
     justifyContent: 'space-between',
     marginBottom: 8,
+    color: AppColors.primary,
   },
   confirmed: {
-    color: 'green',
+    color: AppColors.accent1,
     fontWeight: 'bold',
   },
   chartStatus: {
     textAlign: 'center',
-    color: '#888',
+    color: AppColors.secondary,
     marginTop: 8,
   },
   recentSearchesContainer: {},
@@ -199,7 +207,7 @@ const styles = StyleSheet.create({
     marginBottom: 12,
   },
   clearAll: {
-    color: '#007bff',
+    color: AppColors.primary,
     fontWeight: 'bold',
   },
   recentSearchCard: {
@@ -209,6 +217,8 @@ const styles = StyleSheet.create({
     borderRadius: 8,
     padding: 16,
     marginBottom: 8,
+    borderWidth: 1,
+    borderColor: AppColors.secondary,
   },
   recentInfo: {
       flex: 1,
@@ -216,8 +226,9 @@ const styles = StyleSheet.create({
   },
   recentPnr:{
       fontWeight: 'bold',
+      color: AppColors.primary,
   },
   recentTrain: {
-      color: '#888',
+      color: AppColors.secondary,
   }
 });

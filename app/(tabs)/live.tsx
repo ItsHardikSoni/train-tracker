@@ -1,6 +1,7 @@
 import { View, Text, TextInput, TouchableOpacity, StyleSheet, ScrollView, SafeAreaView } from 'react-native';
 import { ThemedText } from '@/components/themed-text';
 import { IconSymbol } from '@/components/ui/icon-symbol';
+import { AppColors } from '@/constants/colors';
 
 export default function LiveScreen() {
   return (
@@ -9,7 +10,7 @@ export default function LiveScreen() {
         <ThemedText style={styles.title} type="title">Live Train Status</ThemedText>
 
         <View style={styles.searchContainer}>
-          <IconSymbol name="magnifyingglass" size={24} color="#888" style={styles.inputIcon} />
+          <IconSymbol name="magnifyingglass" size={24} color={AppColors.secondary} style={styles.inputIcon} />
           <TextInput
             style={styles.searchInput}
             placeholder="Enter Train Name or Number"
@@ -29,7 +30,7 @@ export default function LiveScreen() {
             </View>
             <Text style={styles.updateTime}>Last updated: 2 mins ago</Text>
             <View style={styles.statusRow}>
-                <Text>➡️ On Time</Text>
+                <Text style={{color: AppColors.primary}}>➡️ On Time</Text>
             </View>
             <View style={styles.stationInfo}>
                 <Text style={styles.stationText}>GWL - Gwalior</Text>
@@ -42,20 +43,20 @@ export default function LiveScreen() {
         <View style={styles.recentSearchesContainer}>
           <ThemedText type="subtitle">Recent Searches</ThemedText>
            <View style={styles.recentSearchCard}>
-            <IconSymbol name="arrow.counterclockwise" size={24} color="#888"/>
+            <IconSymbol name="arrow.counterclockwise" size={24} color={AppColors.secondary}/>
             <View style={styles.recentInfo}>
                 <Text style={styles.recentTrain}>12951</Text>
                 <Text style={styles.recentDetail}>Yesterday</Text>
             </View>
-            <IconSymbol name="chevron.right" size={20} color="#888"/>
+            <IconSymbol name="chevron.right" size={20} color={AppColors.secondary}/>
           </View>
           <View style={styles.recentSearchCard}>
-            <IconSymbol name="arrow.counterclockwise" size={24} color="#888"/>
+            <IconSymbol name="arrow.counterclockwise" size={24} color={AppColors.secondary}/>
              <View style={styles.recentInfo}>
                 <Text style={styles.recentTrain}>22435</Text>
                 <Text style={styles.recentDetail}>2 days ago</Text>
             </View>
-            <IconSymbol name="chevron.right" size={20} color="#888"/>
+            <IconSymbol name="chevron.right" size={20} color={AppColors.secondary}/>
           </View>
         </View>
       </ScrollView>
@@ -66,7 +67,7 @@ export default function LiveScreen() {
 const styles = StyleSheet.create({
   safeArea: {
     flex: 1,
-    backgroundColor: '#f0f4f8',
+    backgroundColor: AppColors.background,
   },
   container: {
     flex: 1,
@@ -75,6 +76,7 @@ const styles = StyleSheet.create({
   title: {
     marginBottom: 24,
     textAlign: 'center',
+    color: AppColors.primary,
   },
   searchContainer: {
     flexDirection: 'row',
@@ -82,7 +84,7 @@ const styles = StyleSheet.create({
     backgroundColor: 'white',
     borderRadius: 8,
     borderWidth: 1,
-    borderColor: '#ccc',
+    borderColor: AppColors.secondary,
     paddingHorizontal: 10,
     marginBottom: 16,
   },
@@ -93,9 +95,10 @@ const styles = StyleSheet.create({
     flex: 1,
     height: 50,
     fontSize: 16,
+    color: AppColors.primary,
   },
   trackButton: {
-    backgroundColor: '#007bff',
+    backgroundColor: AppColors.primary,
     borderRadius: 8,
     paddingVertical: 14,
     alignItems: 'center',
@@ -111,10 +114,12 @@ const styles = StyleSheet.create({
     borderRadius: 8,
     padding: 16,
     marginBottom: 24,
+    borderWidth: 1,
+    borderColor: AppColors.secondary,
   },
   liveStatusTitle: {
     fontWeight: 'bold',
-    color: '#888',
+    color: AppColors.secondary,
     marginBottom: 12,
   },
   trainCard: {},
@@ -127,18 +132,19 @@ const styles = StyleSheet.create({
   trainName: {
     fontWeight: 'bold',
     fontSize: 18,
+    color: AppColors.primary,
   },
   liveIndicator: {
-      color: 'red',
+      color: AppColors.accent1,
       fontWeight: 'bold',
   },
   updateTime: {
-      color: '#888',
+      color: AppColors.secondary,
       fontSize: 12,
       marginBottom: 12,
   },
   statusRow: {
-      backgroundColor: '#e7f7e7',
+      backgroundColor: AppColors.accent2,
       padding: 8,
       borderRadius: 4,
       marginBottom: 12,
@@ -151,12 +157,13 @@ const styles = StyleSheet.create({
   },
   stationText: {
       fontWeight: 'bold',
+      color: AppColors.primary,
   },
   platform: {
-      color: '#555',
+      color: AppColors.secondary,
   },
   nextStation: {
-      color: '#007bff',
+      color: AppColors.primary,
   },
   recentSearchesContainer: {},
   recentSearchCard: {
@@ -166,6 +173,8 @@ const styles = StyleSheet.create({
     borderRadius: 8,
     padding: 16,
     marginBottom: 8,
+    borderWidth: 1,
+    borderColor: AppColors.secondary,
   },
    recentInfo: {
       flex: 1,
@@ -173,8 +182,9 @@ const styles = StyleSheet.create({
   },
   recentTrain:{
       fontWeight: 'bold',
+      color: AppColors.primary,
   },
   recentDetail: {
-      color: '#888',
+      color: AppColors.secondary,
   }
 });

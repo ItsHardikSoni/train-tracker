@@ -2,6 +2,7 @@ import { View, Text, TouchableOpacity, StyleSheet, SafeAreaView, Switch } from '
 import { ThemedText } from '@/components/themed-text';
 import { IconSymbol } from '@/components/ui/icon-symbol';
 import { useState } from 'react';
+import { AppColors } from '@/constants/colors';
 
 export default function SettingsScreen() {
     const [notifications, setNotifications] = useState(true);
@@ -15,7 +16,7 @@ export default function SettingsScreen() {
             <View style={styles.section}>
                 <ThemedText style={styles.sectionTitle} type="subtitle">General</ThemedText>
                 <View style={styles.row}>
-                    <IconSymbol name="bell" size={24} color="#888" style={styles.icon}/>
+                    <IconSymbol name="bell" size={24} color={AppColors.secondary} style={styles.icon}/>
                     <Text style={styles.rowLabel}>Notifications</Text>
                     <Switch 
                         value={notifications}
@@ -23,7 +24,7 @@ export default function SettingsScreen() {
                     />
                 </View>
                 <View style={styles.row}>
-                    <IconSymbol name="figure.walk.motion" size={24} color="#888" style={styles.icon}/>
+                    <IconSymbol name="figure.walk.motion" size={24} color={AppColors.secondary} style={styles.icon}/>
                     <Text style={styles.rowLabel}>Live Activities</Text>
                      <Switch 
                         value={liveActivities}
@@ -35,19 +36,19 @@ export default function SettingsScreen() {
             <View style={styles.section}>
                 <ThemedText style={styles.sectionTitle} type="subtitle">About</ThemedText>
                  <TouchableOpacity style={styles.row}>
-                    <IconSymbol name="info.circle" size={24} color="#888" style={styles.icon}/>
+                    <IconSymbol name="info.circle" size={24} color={AppColors.secondary} style={styles.icon}/>
                     <Text style={styles.rowLabel}>Version</Text>
                     <Text style={styles.rowValue}>1.0.0</Text>
                 </TouchableOpacity>
                 <TouchableOpacity style={styles.row}>
-                    <IconSymbol name="doc.text" size={24} color="#888" style={styles.icon}/>
+                    <IconSymbol name="doc.text" size={24} color={AppColors.secondary} style={styles.icon}/>
                     <Text style={styles.rowLabel}>Terms of Service</Text>
-                    <IconSymbol name="chevron.right" size={20} color="#ccc" />
+                    <IconSymbol name="chevron.right" size={20} color={AppColors.accent2} />
                 </TouchableOpacity>
                 <TouchableOpacity style={styles.row}>
-                    <IconSymbol name="shield" size={24} color="#888" style={styles.icon}/>
+                    <IconSymbol name="shield" size={24} color={AppColors.secondary} style={styles.icon}/>
                     <Text style={styles.rowLabel}>Privacy Policy</Text>
-                    <IconSymbol name="chevron.right" size={20} color="#ccc" />
+                    <IconSymbol name="chevron.right" size={20} color={AppColors.accent2} />
                 </TouchableOpacity>
             </View>
 
@@ -67,7 +68,7 @@ export default function SettingsScreen() {
 const styles = StyleSheet.create({
     safeArea: {
         flex: 1,
-        backgroundColor: '#f0f4f8',
+        backgroundColor: AppColors.background,
     },
     container: {
         flex: 1,
@@ -76,24 +77,28 @@ const styles = StyleSheet.create({
     title: {
         marginBottom: 24,
         textAlign: 'center',
+        color: AppColors.primary,
     },
     section: {
         backgroundColor: 'white',
         borderRadius: 8,
         marginBottom: 24,
         paddingHorizontal: 16,
+        borderWidth: 1,
+        borderColor: AppColors.secondary,
     },
     sectionTitle: {
         paddingVertical: 12,
         borderBottomWidth: 1,
-        borderBottomColor: '#e0e0e0',
+        borderBottomColor: AppColors.accent2,
+        color: AppColors.primary,
     },
     row: {
         flexDirection: 'row',
         alignItems: 'center',
         paddingVertical: 12,
         borderBottomWidth: 1,
-        borderBottomColor: '#e0e0e0',
+        borderBottomColor: AppColors.accent2,
     },
     icon: {
         marginRight: 16,
@@ -101,10 +106,11 @@ const styles = StyleSheet.create({
     rowLabel: {
         flex: 1,
         fontSize: 16,
+        color: AppColors.primary,
     },
     rowValue: {
         fontSize: 16,
-        color: '#888',
+        color: AppColors.secondary,
     },
     button: {
         backgroundColor: 'white',
@@ -112,15 +118,17 @@ const styles = StyleSheet.create({
         padding: 16,
         alignItems: 'center',
         marginBottom: 12,
+        borderWidth: 1,
+        borderColor: AppColors.secondary,
     },
     buttonText: {
         fontSize: 16,
-        color: '#007bff',
+        color: AppColors.primary,
         fontWeight: 'bold'
     },
     footer: {
         textAlign: 'center',
-        color: '#888',
+        color: AppColors.secondary,
         marginTop: 24,
     }
 });

@@ -2,15 +2,16 @@ import { View, Text, TextInput, TouchableOpacity, StyleSheet, ScrollView, SafeAr
 import { ThemedText } from '@/components/themed-text';
 import { ThemedView } from '@/components/themed-view';
 import { IconSymbol } from '@/components/ui/icon-symbol';
+import { AppColors } from '@/constants/colors';
 
 export default function HomeScreen() {
   return (
     <SafeAreaView style={styles.safeArea}>
       <ScrollView style={styles.container}>
         <ThemedView style={styles.header}>
-          <IconSymbol name="line.horizontal.3" size={24} color={''} />
+          <IconSymbol name="line.horizontal.3" size={24} color={AppColors.background} />
           <ThemedText type="title">Train Tracker</ThemedText>
-          <IconSymbol name="magnifyingglass" size={24} color={''} />
+          <IconSymbol name="magnifyingglass" size={24} color={AppColors.background} />
         </ThemedView>
 
         <View style={styles.searchContainer}>
@@ -25,19 +26,19 @@ export default function HomeScreen() {
 
         <View style={styles.cardsContainer}>
           <TouchableOpacity style={styles.card}>
-            <IconSymbol name="text.book.closed" size={24} color="#007bff" />
+            <IconSymbol name="text.book.closed" size={24} color={AppColors.primary} />
             <Text style={styles.cardText}>PNR Status</Text>
           </TouchableOpacity>
           <TouchableOpacity style={styles.card}>
-            <IconSymbol name="dot.radiowaves.up.forward" size={24} color="#007bff" />
+            <IconSymbol name="dot.radiowaves.up.forward" size={24} color={AppColors.primary} />
             <Text style={styles.cardText}>Live Status</Text>
           </TouchableOpacity>
           <TouchableOpacity style={styles.card}>
-            <IconSymbol name="map" size={24} color="#007bff" />
+            <IconSymbol name="map" size={24} color={AppColors.primary} />
             <Text style={styles.cardText}>Train Route</Text>
           </TouchableOpacity>
           <TouchableOpacity style={styles.card}>
-            <IconSymbol name="magnifyingglass" size={24} color="#007bff" />
+            <IconSymbol name="magnifyingglass" size={24} color={AppColors.primary} />
             <Text style={styles.cardText}>Station Search</Text>
           </TouchableOpacity>
         </View>
@@ -90,7 +91,7 @@ export default function HomeScreen() {
 const styles = StyleSheet.create({
   safeArea: {
     flex: 1,
-    backgroundColor: '#f0f4f8',
+    backgroundColor: AppColors.background,
   },
   container: {
     flex: 1,
@@ -101,27 +102,27 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     paddingHorizontal: 16,
     paddingVertical: 12,
-    backgroundColor: 'white',
+    backgroundColor: AppColors.primary,
   },
   searchContainer: {
     flexDirection: 'row',
     padding: 16,
-    backgroundColor: 'white',
+    backgroundColor: AppColors.background,
     borderBottomWidth: 1,
-    borderBottomColor: '#e0e0e0',
+    borderBottomColor: AppColors.accent2,
   },
   searchInput: {
     flex: 1,
     borderWidth: 1,
-    borderColor: '#ccc',
+    borderColor: AppColors.secondary,
     borderRadius: 8,
     paddingHorizontal: 12,
     paddingVertical: 10,
     marginRight: 8,
-    backgroundColor: '#fafafa'
+    backgroundColor: 'white'
   },
   trackButton: {
-    backgroundColor: '#007bff',
+    backgroundColor: AppColors.primary,
     borderRadius: 8,
     paddingHorizontal: 16,
     justifyContent: 'center',
@@ -143,6 +144,8 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     width: '48%',
     marginBottom: 12,
+    borderColor: AppColors.secondary,
+    borderWidth: 1,
     shadowColor: '#000',
     shadowOffset: { width: 0, height: 1 },
     shadowOpacity: 0.2,
@@ -151,6 +154,7 @@ const styles = StyleSheet.create({
   },
   cardText: {
     marginTop: 8,
+    color: AppColors.primary,
   },
   infoContainer: {
     paddingHorizontal: 16,
@@ -159,6 +163,8 @@ const styles = StyleSheet.create({
     backgroundColor: 'white',
     borderRadius: 8,
     padding: 16,
+    borderColor: AppColors.secondary,
+    borderWidth: 1,
     shadowColor: '#000',
     shadowOffset: { width: 0, height: 1 },
     shadowOpacity: 0.2,
@@ -167,7 +173,7 @@ const styles = StyleSheet.create({
   },
   infoCardDate: {
     fontWeight: 'bold',
-    color: '#888',
+    color: AppColors.secondary,
     marginBottom: 8,
   },
   trainInfoRow: {
@@ -179,12 +185,13 @@ const styles = StyleSheet.create({
   trainName: {
     fontWeight: 'bold',
     fontSize: 18,
+    color: AppColors.primary,
   },
   confirmed: {
-    color: 'green',
+    color: AppColors.primary,
     fontWeight: 'bold',
     fontSize: 12,
-    backgroundColor: '#e7f7e7',
+    backgroundColor: AppColors.accent1,
     paddingHorizontal: 6,
     paddingVertical: 2,
     borderRadius: 4,
@@ -198,12 +205,13 @@ const styles = StyleSheet.create({
   routeTime: {
     fontWeight: 'bold',
     fontSize: 16,
+    color: AppColors.primary,
   },
   routeLine: {
-    color: '#ccc',
+    color: AppColors.accent2,
   },
   routeStation: {
-    color: '#555',
+    color: AppColors.secondary,
   },
   coachInfo: {
     flexDirection: 'row',
@@ -211,10 +219,10 @@ const styles = StyleSheet.create({
     marginTop: 12,
     paddingTop: 12,
     borderTopWidth: 1,
-    borderTopColor: '#e0e0e0',
+    borderTopColor: AppColors.accent2,
   },
   details: {
-    color: '#007bff',
+    color: AppColors.primary,
     fontWeight: 'bold',
   },
   recentSearchesContainer: {
@@ -227,6 +235,8 @@ const styles = StyleSheet.create({
     borderRadius: 8,
     padding: 12,
     marginTop: 8,
+    borderColor: AppColors.secondary,
+    borderWidth: 1,
     shadowColor: '#000',
     shadowOffset: { width: 0, height: 1 },
     shadowOpacity: 0.2,
