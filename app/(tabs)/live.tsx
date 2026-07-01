@@ -1,11 +1,10 @@
-import { View, Text, TextInput, TouchableOpacity, StyleSheet, ScrollView, SafeAreaView } from 'react-native';
 import { ThemedText } from '@/components/themed-text';
 import { IconSymbol } from '@/components/ui/icon-symbol';
 import { AppColors } from '@/constants/colors';
+import { ScrollView, StyleSheet, Text, TextInput, TouchableOpacity, View } from 'react-native';
 
 export default function LiveScreen() {
   return (
-    <SafeAreaView style={styles.safeArea}>
       <ScrollView style={styles.container}>
         <ThemedText style={styles.title} type="title">Live Train Status</ThemedText>
 
@@ -60,18 +59,15 @@ export default function LiveScreen() {
           </View>
         </View>
       </ScrollView>
-    </SafeAreaView>
   );
 }
 
 const styles = StyleSheet.create({
-  safeArea: {
-    flex: 1,
-    backgroundColor: AppColors.background,
-  },
-  container: {
+container: {
     flex: 1,
     padding: 16,
+        backgroundColor: AppColors.background,
+
   },
   title: {
     marginBottom: 24,

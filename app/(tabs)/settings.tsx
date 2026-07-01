@@ -1,15 +1,14 @@
-import { View, Text, TouchableOpacity, StyleSheet, SafeAreaView, Switch } from 'react-native';
 import { ThemedText } from '@/components/themed-text';
 import { IconSymbol } from '@/components/ui/icon-symbol';
-import { useState } from 'react';
 import { AppColors } from '@/constants/colors';
+import { useState } from 'react';
+import { StyleSheet, Switch, Text, TouchableOpacity, View } from 'react-native';
 
 export default function SettingsScreen() {
     const [notifications, setNotifications] = useState(true);
     const [liveActivities, setLiveActivities] = useState(false);
 
   return (
-    <SafeAreaView style={styles.safeArea}>
         <View style={styles.container}>
             <ThemedText style={styles.title} type="title">Settings</ThemedText>
 
@@ -61,18 +60,15 @@ export default function SettingsScreen() {
 
             <Text style={styles.footer}>Made with ❤️ in India</Text>
         </View>
-    </SafeAreaView>
   );
 }
 
 const styles = StyleSheet.create({
-    safeArea: {
-        flex: 1,
-        backgroundColor: AppColors.background,
-    },
     container: {
         flex: 1,
         padding: 16,
+            backgroundColor: AppColors.background,
+
     },
     title: {
         marginBottom: 24,

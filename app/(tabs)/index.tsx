@@ -1,12 +1,11 @@
-import { View, Text, TextInput, TouchableOpacity, StyleSheet, ScrollView, SafeAreaView } from 'react-native';
 import { ThemedText } from '@/components/themed-text';
 import { ThemedView } from '@/components/themed-view';
 import { IconSymbol } from '@/components/ui/icon-symbol';
 import { AppColors } from '@/constants/colors';
+import { ScrollView, StyleSheet, Text, TextInput, TouchableOpacity, View } from 'react-native';
 
 export default function HomeScreen() {
   return (
-    <SafeAreaView style={styles.safeArea}>
       <ScrollView style={styles.container}>
         <ThemedView style={styles.header}>
           <IconSymbol name="line.horizontal.3" size={24} color={AppColors.background} />
@@ -84,17 +83,13 @@ export default function HomeScreen() {
         </View>
       </View>
       </ScrollView>
-    </SafeAreaView>
   );
 }
 
 const styles = StyleSheet.create({
-  safeArea: {
-    flex: 1,
-    backgroundColor: AppColors.background,
-  },
   container: {
     flex: 1,
+    backgroundColor: AppColors.background,
   },
   header: {
     flexDirection: 'row',
