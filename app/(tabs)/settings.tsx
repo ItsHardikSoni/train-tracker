@@ -22,7 +22,7 @@ export default function SettingsScreen() {
                         value={notifications}
                         onValueChange={setNotifications}
                         trackColor={{ false: AppColors.border, true: AppColors.accent }}
-                        thumbColor={AppColors.textPrimary}
+                        thumbColor={AppColors.background}
                     />
                 </View>
                 <View style={[styles.row, { borderBottomWidth: 0 }]}>
@@ -32,7 +32,7 @@ export default function SettingsScreen() {
                         value={liveActivities}
                         onValueChange={setLiveActivities}
                         trackColor={{ false: AppColors.border, true: AppColors.accent }}
-                        thumbColor={AppColors.textPrimary}
+                        thumbColor={AppColors.background}
                     />
                 </View>
             </View>

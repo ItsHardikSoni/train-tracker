@@ -8,9 +8,9 @@ export default function HomeScreen() {
   return (
       <ScrollView style={styles.container}>
         <ThemedView style={styles.header}>
-          <IconSymbol name="line.horizontal.3" size={24} color={AppColors.textPrimary} />
+          <IconSymbol name="line.horizontal.3" size={24} color={AppColors.background} />
           <ThemedText style={styles.title} type="title">Train Tracker</ThemedText>
-          <IconSymbol name="magnifyingglass" size={24} color={AppColors.textPrimary} />
+          <IconSymbol name="magnifyingglass" size={24} color={AppColors.background} />
         </ThemedView>
 
         <View style={styles.searchContainer}>
@@ -101,7 +101,7 @@ const styles = StyleSheet.create({
     backgroundColor: AppColors.primary,
   },
   title: {
-    color: AppColors.textPrimary,
+    color: AppColors.background,
     fontWeight: 'bold',
   },
   searchContainer: {
@@ -129,7 +129,7 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
   },
   trackButtonText: {
-    color: AppColors.textPrimary,
+    color: AppColors.background,
     fontWeight: 'bold',
   },
   cardsContainer: {
@@ -179,13 +179,14 @@ const styles = StyleSheet.create({
     color: AppColors.textPrimary,
   },
   confirmed: {
-    color: AppColors.primary,
+    color: AppColors.background,
     fontWeight: 'bold',
     fontSize: 12,
     backgroundColor: AppColors.success,
     paddingHorizontal: 6,
     paddingVertical: 2,
     borderRadius: 4,
+    overflow: 'hidden',
   },
   routeContainer: {
     flexDirection: 'row',

@@ -127,7 +127,7 @@ const styles = StyleSheet.create({
     marginBottom: 24,
   },
   checkStatusButtonText: {
-    color: AppColors.textPrimary,
+    color: AppColors.background,
     fontWeight: 'bold',
     fontSize: 16,
   },
@@ -191,8 +191,13 @@ const styles = StyleSheet.create({
     marginBottom: 8,
   },
   confirmed: {
-    color: AppColors.success,
+    color: AppColors.background,
     fontWeight: 'bold',
+    backgroundColor: AppColors.success,
+    paddingHorizontal: 6,
+    paddingVertical: 2,
+    borderRadius: 4,
+    overflow: 'hidden',
   },
   chartStatus: {
     textAlign: 'center',

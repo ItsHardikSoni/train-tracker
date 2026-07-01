@@ -11,19 +11,19 @@ const tintColorDark = AppColors.background;
 
 export const Colors = {
   light: {
-    text: AppColors.primary,
+    text: AppColors.textPrimary,
     background: AppColors.background,
     tint: tintColorLight,
-    icon: AppColors.secondary,
-    tabIconDefault: AppColors.secondary,
+    icon: AppColors.textSecondary,
+    tabIconDefault: AppColors.textSecondary,
     tabIconSelected: tintColorLight,
   },
   dark: {
     text: AppColors.background,
-    background: AppColors.primary,
+    background: AppColors.textPrimary,
     tint: tintColorDark,
-    icon: AppColors.accent2,
-    tabIconDefault: AppColors.accent2,
+    icon: AppColors.secondary,
+    tabIconDefault: AppColors.secondary,
     tabIconSelected: tintColorDark,
   },
 };

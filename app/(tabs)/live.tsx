@@ -106,7 +106,7 @@ const styles = StyleSheet.create({
     marginBottom: 24,
   },
   trackButtonText: {
-    color: AppColors.textPrimary,
+    color: AppColors.background,
     fontWeight: 'bold',
     fontSize: 16,
   },
