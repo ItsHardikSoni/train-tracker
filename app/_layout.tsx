@@ -15,7 +15,7 @@ export default function RootLayout() {
   const colorScheme = useColorScheme();
 
   return (
-    <SafeAreaView style={{ flex: 1, backgroundColor: Colors.dark.background }}>
+    <SafeAreaView style={{ flex: 1, backgroundColor: Colors.light.background }}>
       <ThemeProvider value={colorScheme === 'dark' ? DarkTheme : DefaultTheme}>
         <Stack>
           <Stack.Screen name="(tabs)" options={{ headerShown: false }} />
