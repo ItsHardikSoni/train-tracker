@@ -1,4 +1,4 @@
-import { View, Text, TouchableOpacity, StyleSheet, SafeAreaView, Switch } from 'react-native';
+import { View, Text, TouchableOpacity, StyleSheet, SafeAreaView, Switch, ScrollView } from 'react-native';
 import { ThemedText } from '@/components/themed-text';
 import { IconSymbol } from '@/components/ui/icon-symbol';
 import { useState } from 'react';
@@ -10,7 +10,7 @@ export default function SettingsScreen() {
 
   return (
     <SafeAreaView style={styles.safeArea}>
-        <View style={styles.container}>
+        <ScrollView style={styles.container} showsVerticalScrollIndicator={false}>
             <ThemedText style={styles.title} type="title">Settings</ThemedText>
 
             <View style={styles.section}>
@@ -64,7 +64,7 @@ export default function SettingsScreen() {
             </TouchableOpacity>
 
             <Text style={styles.footer}>Made with ❤️ in India</Text>
-        </View>
+        </ScrollView>
     </SafeAreaView>
   );
 }

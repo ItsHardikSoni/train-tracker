@@ -6,7 +6,7 @@ import { ScrollView, StyleSheet, Text, TextInput, TouchableOpacity, View } from 
 
 export default function HomeScreen() {
   return (
-      <ScrollView style={styles.container}>
+      <ScrollView style={styles.container} showsVerticalScrollIndicator={false}>
         <ThemedView style={styles.header}>
           <IconSymbol name="line.horizontal.3" size={24} color={AppColors.background} />
           <ThemedText style={styles.title} type="title">Train Tracker</ThemedText>

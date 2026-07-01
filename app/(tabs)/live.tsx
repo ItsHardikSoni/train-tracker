@@ -6,7 +6,7 @@ import { AppColors } from '@/constants/colors';
 export default function LiveScreen() {
   return (
     <SafeAreaView style={styles.safeArea}>
-      <ScrollView style={styles.container}>
+      <ScrollView style={styles.container} showsVerticalScrollIndicator={false}>
         <ThemedText style={styles.title} type="title">Live Train Status</ThemedText>
 
         <View style={styles.searchContainer}>
