@@ -1,7 +1,8 @@
 import { ThemedText } from '@/components/themed-text';
 import { ThemedView } from '@/components/themed-view';
 import { useState } from 'react';
-import { SafeAreaView, StyleSheet, TextInput, TouchableOpacity, Text, View } from 'react-native';
+import { StyleSheet, TextInput, TouchableOpacity, Text, View } from 'react-native';
+import { SafeAreaView } from 'react-native-safe-area-context';
 
 export default function LiveScreen() {
   const [trainNumber, setTrainNumber] = useState('');
