@@ -1,191 +1,77 @@
-import { View, Text, TextInput, TouchableOpacity, StyleSheet, ScrollView, SafeAreaView } from 'react-native';
 import { ThemedText } from '@/components/themed-text';
-import { IconSymbol } from '@/components/ui/icon-symbol';
-import { AppColors } from '@/constants/colors';
+import { ThemedView } from '@/components/themed-view';
+import { useState } from 'react';
+import { SafeAreaView, StyleSheet, TextInput, TouchableOpacity, Text, View } from 'react-native';
 
 export default function LiveScreen() {
-  return (
-    <SafeAreaView style={styles.safeArea}>
-      <ScrollView style={styles.container} showsVerticalScrollIndicator={false}>
-        <ThemedText style={styles.title} type="title">Live Train Status</ThemedText>
+  const [trainNumber, setTrainNumber] = useState('');
 
-        <View style={styles.searchContainer}>
-          <IconSymbol name="magnifyingglass" size={24} color={AppColors.textSecondary} style={styles.inputIcon} />
+  return (
+    <SafeAreaView style={styles.container}>
+      <ThemedView style={styles.content}>
+        <ThemedText type="title">Live Train Status</ThemedText>
+        <ThemedText style={styles.subtitle}>Enter the train number to get its live running status.</ThemedText>
+
+        <View style={styles.inputContainer}>
           <TextInput
-            style={styles.searchInput}
-            placeholder="Enter Train Name or Number"
-            placeholderTextColor={AppColors.textSecondary}
+            style={styles.input}
+            placeholder="Enter Train Number"
+            placeholderTextColor="#999"
+            value={trainNumber}
+            onChangeText={setTrainNumber}
+            keyboardType="numeric"
           />
         </View>
 
-        <TouchableOpacity style={styles.trackButton}>
-          <Text style={styles.trackButtonText}>Track Train</Text>
+        <TouchableOpacity style={styles.button}>
+          <Text style={styles.buttonText}>Track Train</Text>
         </TouchableOpacity>
-
-        <View style={styles.liveStatusContainer}>
-          <Text style={styles.liveStatusTitle}>LIVE STATUS</Text>
-          <View style={styles.trainCard}>
-             <View style={styles.trainInfoRow}>
-                <Text style={styles.trainName}>12002 - Shatabdi Exp</Text>
-                <Text style={styles.liveIndicator}>● LIVE</Text>
-            </View>
-            <Text style={styles.updateTime}>Last updated: 2 mins ago</Text>
-            <View style={styles.statusRow}>
-                <Text style={{color: AppColors.success}}>➡️ On Time</Text>
-            </View>
-            <View style={styles.stationInfo}>
-                <Text style={styles.stationText}>GWL - Gwalior</Text>
-                <Text style={styles.platform}>Platform 2</Text>
-            </View>
-            <Text style={styles.nextStation}>Next Stop: Morena in 28 mins</Text>
-          </View>
-        </View>
-
-        <View style={styles.recentSearchesContainer}>
-          <ThemedText type="subtitle">Recent Searches</ThemedText>
-           <View style={styles.recentSearchCard}>
-            <IconSymbol name="arrow.counterclockwise" size={24} color={AppColors.textSecondary}/>
-            <View style={styles.recentInfo}>
-                <Text style={styles.recentTrain}>12951</Text>
-                <Text style={styles.recentDetail}>Yesterday</Text>
-            </View>
-            <IconSymbol name="chevron.right" size={20} color={AppColors.textSecondary}/>
-          </View>
-          <View style={styles.recentSearchCard}>
-            <IconSymbol name="arrow.counterclockwise" size={24} color={AppColors.textSecondary}/>
-             <View style={styles.recentInfo}>
-                <Text style={styles.recentTrain}>22435</Text>
-                <Text style={styles.recentDetail}>2 days ago</Text>
-            </View>
-            <IconSymbol name="chevron.right" size={20} color={AppColors.textSecondary}/>
-          </View>
-        </View>
-      </ScrollView>
+      </ThemedView>
     </SafeAreaView>
   );
 }
 
 const styles = StyleSheet.create({
-  safeArea: {
-    flex: 1,
-    backgroundColor: AppColors.background,
-  },
   container: {
     flex: 1,
-    padding: 16,
   },
-  title: {
+  content: {
+    flex: 1,
+    padding: 24,
+    alignItems: 'center',
+    justifyContent: 'center',
+  },
+  subtitle: {
+    marginTop: 8,
     marginBottom: 24,
     textAlign: 'center',
-    color: AppColors.textPrimary,
-  },
-  searchContainer: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    backgroundColor: AppColors.surface,
-    borderRadius: 8,
-    borderWidth: 1,
-    borderColor: AppColors.border,
-    paddingHorizontal: 10,
-    marginBottom: 16,
-  },
-  inputIcon: {
-    marginRight: 10,
-  },
-  searchInput: {
-    flex: 1,
-    height: 50,
     fontSize: 16,
-    color: AppColors.textPrimary,
+    color: '#666',
   },
-  trackButton: {
-    backgroundColor: AppColors.primary,
+  inputContainer: {
+    width: '100%',
+    marginBottom: 20,
+  },
+  input: {
+    backgroundColor: '#f0f0f0',
+    paddingHorizontal: 15,
+    paddingVertical: 12,
     borderRadius: 8,
-    paddingVertical: 14,
-    alignItems: 'center',
-    marginBottom: 24,
-  },
-  trackButtonText: {
-    color: AppColors.background,
-    fontWeight: 'bold',
-    fontSize: 16,
-  },
-  liveStatusContainer: {
-    backgroundColor: AppColors.surface,
-    borderRadius: 8,
-    padding: 16,
-    marginBottom: 24,
-    borderWidth: 1,
-    borderColor: AppColors.border,
-  },
-  liveStatusTitle: {
-    fontWeight: 'bold',
-    color: AppColors.textSecondary,
-    marginBottom: 12,
-  },
-  trainCard: {},
-  trainInfoRow: {
-    flexDirection: 'row',
-    justifyContent: 'space-between',
-    alignItems: 'center',
-    marginBottom: 4,
-  },
-  trainName: {
-    fontWeight: 'bold',
     fontSize: 18,
-    color: AppColors.textPrimary,
-  },
-  liveIndicator: {
-      color: AppColors.success,
-      fontWeight: 'bold',
-  },
-  updateTime: {
-      color: AppColors.textSecondary,
-      fontSize: 12,
-      marginBottom: 12,
-  },
-  statusRow: {
-      padding: 8,
-      borderRadius: 4,
-      marginBottom: 12,
-      alignSelf: 'flex-start',
-  },
-  stationInfo: {
-      flexDirection: 'row',
-      justifyContent: 'space-between',
-      alignItems: 'center',
-      marginBottom: 4,
-  },
-  stationText: {
-      fontWeight: 'bold',
-      color: AppColors.textPrimary,
-  },
-  platform: {
-      color: AppColors.textSecondary,
-  },
-  nextStation: {
-      color: AppColors.textPrimary,
-  },
-  recentSearchesContainer: {},
-  recentSearchCard: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    backgroundColor: AppColors.surface,
-    borderRadius: 8,
-    padding: 16,
-    marginBottom: 8,
+    width: '100%',
     borderWidth: 1,
-    borderColor: AppColors.border,
+    borderColor: '#ddd',
   },
-   recentInfo: {
-      flex: 1,
-      marginLeft: 12,
+  button: {
+    backgroundColor: '#007bff',
+    padding: 15,
+    borderRadius: 8,
+    alignItems: 'center',
+    width: '100%',
   },
-  recentTrain:{
-      fontWeight: 'bold',
-      color: AppColors.textPrimary,
+  buttonText: {
+    color: '#fff',
+    fontSize: 18,
+    fontWeight: 'bold',
   },
-  recentDetail: {
-      color: AppColors.textSecondary,
-  }
 });
