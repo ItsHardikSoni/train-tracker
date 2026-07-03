@@ -37,7 +37,7 @@ export default function PnrScreen() {
         <ThemedView style={styles.content}>
           <ThemedText type="title">PNR Status</ThemedText>
           <ThemedText style={styles.subtitle}>Enter your 10-digit PNR number to get the latest status.</ThemedText>
-          
+
           <View style={styles.inputContainer}>
             <TextInput
               style={styles.input}
@@ -62,19 +62,109 @@ export default function PnrScreen() {
 
           {data && (
             <View style={styles.resultContainer}>
-              <Text style={styles.resultTitle}>PNR Details</Text>
-              <Text>PNR: {data.Pnr}</Text>
-              <Text>Train: {data.TrainName} ({data.TrainNo})</Text>
-              <Text>From: {data.BoardingStationName} ({data.From})</Text>
-              <Text>To: {data.ReservationUptoName} ({data.To})</Text>
-              <Text>Boarding: {data.BoardingStationName}</Text>
-              <Text>Journey Date: {data.JDate}</Text>
-              <Text>Class: {data.Class}</Text>
-              <Text style={styles.passengersTitle}>Passengers</Text>
-              {data.PassengerStatus.map((passenger: any, index: number) => (
-                <Text key={index}>- Seat: {passenger.CurrentCoach}, {passenger.CurrentBerthNo}, Status: {passenger.BookingStatus}</Text>
-              ))}
-              <Text>Charting Status: {data.ChatPrepared ? 'Chart Prepared' : 'Chart Not Prepared'}</Text>
+
+              <Text style={styles.resultTitle}>
+                PNR Details
+              </Text>
+
+              <Text>
+                PNR: {data.pnrNumber}
+              </Text>
+
+              <Text>
+                Train: {data.trainName} ({data.trainNumber})
+              </Text>
+
+              <Text>
+                From: {data.sourceStation}
+              </Text>
+
+              <Text>
+                To: {data.destinationStation}
+              </Text>
+
+              <Text>
+                Boarding: {data.boardingPoint}
+              </Text>
+
+              <Text>
+                Journey Date:
+                {" "}
+                {data.dateOfJourney}
+              </Text>
+
+              <Text>
+                Class:
+                {" "}
+                {data.journeyClass}
+              </Text>
+
+              <Text>
+                Chart Status:
+                {" "}
+                {data.chartStatus}
+              </Text>
+
+              <Text style={styles.passengersTitle}>
+                Passenger Details
+              </Text>
+
+              {data.passengerList?.map(
+                (passenger: any, index: number) => (
+
+                  <View key={index}>
+
+                    <Text>
+
+                      Passenger {index + 1}
+
+                    </Text>
+
+                    <Text>
+
+                      Booking:
+
+                      {" "}
+
+                      {passenger.bookingStatusDetails}
+
+                    </Text>
+
+                    <Text>
+
+                      Current:
+
+                      {" "}
+
+                      {passenger.currentStatusDetails}
+
+                    </Text>
+
+                    <Text>
+
+                      Coach:
+
+                      {" "}
+
+                      {passenger.currentCoachId}
+
+                    </Text>
+
+                    <Text>
+
+                      Berth:
+
+                      {" "}
+
+                      {passenger.currentBerthNo}
+
+                    </Text>
+
+                  </View>
+
+                )
+              )}
+
             </View>
           )}
         </ThemedView>
