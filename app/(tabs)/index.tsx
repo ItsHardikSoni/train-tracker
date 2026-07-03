@@ -2,9 +2,11 @@ import { ThemedText } from '@/components/themed-text';
 import { ThemedView } from '@/components/themed-view';
 import { IconSymbol } from '@/components/ui/icon-symbol';
 import { AppColors } from '@/constants/colors';
+import { useRouter } from 'expo-router';
 import { ScrollView, StyleSheet, Text, TextInput, TouchableOpacity, View } from 'react-native';
 
 export default function HomeScreen() {
+  const router = useRouter();
   return (
       <ScrollView style={styles.container} showsVerticalScrollIndicator={false}>
         <ThemedView style={styles.header}>
@@ -25,11 +27,11 @@ export default function HomeScreen() {
         </View>
 
         <View style={styles.cardsContainer}>
-          <TouchableOpacity style={styles.card}>
+          <TouchableOpacity style={styles.card} onPress={() => router.push('/pnr')}>
             <IconSymbol name="text.book.closed" size={24} color={AppColors.accent} />
             <Text style={styles.cardText}>PNR Status</Text>
           </TouchableOpacity>
-          <TouchableOpacity style={styles.card}>
+          <TouchableOpacity style={styles.card} onPress={() => router.push('/live')}>
             <IconSymbol name="dot.radiowaves.up.forward" size={24} color={AppColors.accent} />
             <Text style={styles.cardText}>Live Status</Text>
           </TouchableOpacity>
