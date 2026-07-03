@@ -14,7 +14,7 @@ export default function TabLayout() {
         tabBarActiveTintColor: AppColors.accent,
         headerShown: false,
         tabBarStyle: {
-          backgroundColor: AppColors.primary,
+          backgroundColor: AppColors.background,
         },
       }}>
       <Tabs.Screen
@@ -26,25 +26,7 @@ export default function TabLayout() {
           ),
         }}
       />
-       <Tabs.Screen
-        name="live"
-        options={{
-          title: 'Live',
-          tabBarIcon: ({ color, focused }) => (
-            <TabBarIcon name={focused ? 'train' : 'train-outline'} color={color} />
-          ),
-        }}
-      />
-       <Tabs.Screen
-        name="pnr"
-        options={{
-          title: 'PNR',
-          tabBarIcon: ({ color, focused }) => (
-            <TabBarIcon name={focused ? 'ticket' : 'ticket-outline'} color={color} />
-          ),
-        }}
-      />
-       <Tabs.Screen
+      <Tabs.Screen
         name="settings"
         options={{
           title: 'Settings',
