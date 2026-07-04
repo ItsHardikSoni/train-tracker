@@ -4,20 +4,19 @@ import { View, StyleSheet, Animated, Dimensions, Easing, Text } from 'react-nati
 import { ThemedText } from '@/components/themed-text';
 import { AppColors } from '@/constants/colors';
 
-// Prevent the native splash screen from auto-hiding
-SplashScreen.preventAutoHideAsync();
-
 export function AnimatedSplashScreen({ onAnimationFinish }: { onAnimationFinish: () => void }) {
     const translateX = useRef(new Animated.Value(Dimensions.get('window').width)).current;
 
     useEffect(() => {
+        SplashScreen.hideAsync(); // Hide native splash to show this JS splash
+
         Animated.timing(translateX, {
             toValue: -100,
             duration: 3000,
             easing: Easing.linear,
             useNativeDriver: true,
         }).start(() => {
-            onAnimationFinish();
+            onAnimationFinish(); // Tell parent we are done
         });
     }, []);
 
