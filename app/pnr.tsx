@@ -9,6 +9,7 @@ import {
   View,
   ActivityIndicator,
   ScrollView,
+  Keyboard,
 } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
 import { fetchPnrStatusAPI } from "@/api/pnrService";
@@ -37,6 +38,7 @@ export default function PnrScreen() {
   const [error, setError] = useState<string | null>(null);
 
   const fetchPnrStatus = async () => {
+    Keyboard.dismiss(); // Hide keyboard when button is pressed
     if (pnr.length !== 10) {
       setError("Please enter a valid 10-digit PNR number.");
       return;
