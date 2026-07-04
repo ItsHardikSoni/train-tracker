@@ -15,9 +15,6 @@ export default function RootLayout() {
     const colorScheme = useColorScheme();
 
     useEffect(() => {
-        // Hide the native splash screen.
-        SplashScreen.hideAsync();
-
         // Wait for 3 seconds before marking the splash animation as finished.
         const timer = setTimeout(() => {
             setSplashAnimationFinished(true);
@@ -25,6 +22,12 @@ export default function RootLayout() {
 
         return () => clearTimeout(timer);
     }, []);
+
+    useEffect(() => {
+        if (splashAnimationFinished) {
+            SplashScreen.hideAsync();
+        }
+    }, [splashAnimationFinished]);
 
     if (!splashAnimationFinished) {
         return <AnimatedSplashScreen />;
@@ -35,7 +38,6 @@ export default function RootLayout() {
         <ThemeProvider value={colorScheme === 'dark' ? DarkTheme : DefaultTheme}>
           <Stack>
             <Stack.Screen name="(tabs)" options={{ headerShown: false }} />
-            <Stack.Screen name="modal" options={{ presentation: 'modal', title: 'Modal' }} />
             <Stack.Screen name="live" options={{ headerShown: false }} />
             <Stack.Screen name="pnr" options={{ headerShown: false }} />
           </Stack>
