@@ -1,20 +1,24 @@
+import { SplashScreen } from 'expo-router';
 import React, { useEffect, useRef } from 'react';
 import { View, StyleSheet, Animated, Dimensions, Easing, Text } from 'react-native';
 import { ThemedText } from '@/components/themed-text';
 import { AppColors } from '@/constants/colors';
 
-export function AnimatedSplashScreen() {
+// Prevent the native splash screen from auto-hiding
+SplashScreen.preventAutoHideAsync();
+
+export function AnimatedSplashScreen({ onAnimationFinish }: { onAnimationFinish: () => void }) {
     const translateX = useRef(new Animated.Value(Dimensions.get('window').width)).current;
 
     useEffect(() => {
-        Animated.loop(
-            Animated.timing(translateX, {
-                toValue: -100,
-                duration: 3000,
-                easing: Easing.linear,
-                useNativeDriver: true,
-            })
-        ).start();
+        Animated.timing(translateX, {
+            toValue: -100,
+            duration: 3000,
+            easing: Easing.linear,
+            useNativeDriver: true,
+        }).start(() => {
+            onAnimationFinish();
+        });
     }, []);
 
     return (

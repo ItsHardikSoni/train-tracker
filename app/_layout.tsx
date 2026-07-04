@@ -1,5 +1,5 @@
 import { SplashScreen, Stack } from 'expo-router';
-import React, { useEffect, useState } from 'react';
+import React, { useCallback, useEffect, useState } from 'react';
 import { AnimatedSplashScreen } from '@/components/AnimatedSplashScreen';
 import { Colors } from '@/constants/theme';
 import { ThemeProvider, DefaultTheme, DarkTheme } from '@react-navigation/native';
@@ -14,13 +14,8 @@ export default function RootLayout() {
     const [splashAnimationFinished, setSplashAnimationFinished] = useState(false);
     const colorScheme = useColorScheme();
 
-    useEffect(() => {
-        // Wait for 3 seconds before marking the splash animation as finished.
-        const timer = setTimeout(() => {
-            setSplashAnimationFinished(true);
-        }, 3000);
-
-        return () => clearTimeout(timer);
+    const onAnimationFinish = useCallback(() => {
+        setSplashAnimationFinished(true);
     }, []);
 
     useEffect(() => {
@@ -29,19 +24,19 @@ export default function RootLayout() {
         }
     }, [splashAnimationFinished]);
 
-    if (!splashAnimationFinished) {
-        return <AnimatedSplashScreen />;
-    }
-
     return (
       <SafeAreaView style={{ flex: 1, backgroundColor: Colors.light.background}} edges={['top', 'left', 'right']}>
         <ThemeProvider value={colorScheme === 'dark' ? DarkTheme : DefaultTheme}>
-          <Stack>
-            <Stack.Screen name="(tabs)" options={{ headerShown: false }} />
-            <Stack.Screen name="live" options={{ headerShown: false }} />
-            <Stack.Screen name="pnr" options={{ headerShown: false }} />
-          </Stack>
-          <StatusBar style="auto" />
+            {splashAnimationFinished ? (
+                <Stack>
+                    <Stack.Screen name="(tabs)" options={{ headerShown: false }} />
+                    <Stack.Screen name="live" options={{ headerShown: false }} />
+                    <Stack.Screen name="pnr" options={{ headerShown: false }} />
+                </Stack>
+            ) : (
+                <AnimatedSplashScreen onAnimationFinish={onAnimationFinish} />
+            )}
+            <StatusBar style="auto" />
         </ThemeProvider>
       </SafeAreaView>
     );
