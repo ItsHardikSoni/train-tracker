@@ -195,7 +195,7 @@ export default function PnrScreen() {
                       <ThemedText style={styles.detailValue}>
                         {passenger.bookingStatus} (
                         {passenger.bookingCoachId
-                          ? `${passenger.bookingCoachId}, ${passenger.bookingBerthNo} ${passenger.bookingBerthCode}`
+                          ? `${passenger.bookingCoachId}, ${passenger.bookingBerthNo}, ${passenger.bookingBerthCode}`
                           : "N/A"}
                         )
                       </ThemedText>
@@ -206,7 +206,7 @@ export default function PnrScreen() {
                           Current Seat:
                         </ThemedText>
                         <ThemedText style={styles.detailValue}>
-                          {passenger.currentCoach}, {passenger.currentBerthNo}
+                          {passenger.currentCoachId}, {passenger.currentBerthNo}, {passenger.currentBerthCode}
                         </ThemedText>
                       </View>
                     )}

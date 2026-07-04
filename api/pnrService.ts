@@ -16,8 +16,6 @@ export const fetchPnrStatusAPI = async (pnr: string) => {
 
     const result = await response.json();
 
-    console.log(result);
-
     if (response.ok && result.success) {
 
       return {
