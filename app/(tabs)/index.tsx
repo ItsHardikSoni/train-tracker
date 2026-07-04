@@ -4,9 +4,52 @@ import { IconSymbol } from '@/components/ui/icon-symbol';
 import { AppColors } from '@/constants/colors';
 import { useRouter } from 'expo-router';
 import { ScrollView, StyleSheet, Text, TextInput, TouchableOpacity, View } from 'react-native';
+import AsyncStorage from "@react-native-async-storage/async-storage";
+import { useEffect, useState } from 'react';
+
+const formatDate = (dateStr: string) => {
+  if (!dateStr) return "";
+  const date = new Date(dateStr);
+  const day = date.getDate();
+  const month = date.toLocaleString('default', { month: 'short' });
+  const year = date.getFullYear();
+  return `${day} ${month}, ${year}`;
+};
+
+const formatTime = (dateStr: string) => {
+  if (!dateStr) return "";
+  const date = new Date(dateStr);
+  let hours = date.getHours();
+  let minutes = date.getMinutes() as any;
+  const ampm = hours >= 12 ? 'PM' : 'AM';
+  hours = hours % 12;
+  hours = hours ? hours : 12; // the hour '0' should be '12'
+  minutes = minutes < 10 ? '0'+minutes : minutes;
+  const strTime = hours + ':' + minutes + ' ' + ampm;
+  return strTime;
+};
 
 export default function HomeScreen() {
   const router = useRouter();
+  const [recentPnr, setRecentPnr] = useState<any>(null);
+
+  useEffect(() => {
+    const getRecentPnr = async () => {
+      try {
+        const pnrData = await AsyncStorage.getItem("pnrData");
+        if (pnrData) {
+          const parsedPnrData = JSON.parse(pnrData);
+          if (parsedPnrData.length > 0) {
+            setRecentPnr(parsedPnrData[parsedPnrData.length - 1].data);
+          }
+        }
+      } catch (e) {
+        console.error("Failed to load PNR data.", e);
+      }
+    };
+    getRecentPnr();
+  }, []);
+
   return (
       <ScrollView style={styles.container} showsVerticalScrollIndicator={false}>
         <ThemedView style={styles.header}>
@@ -45,30 +88,32 @@ export default function HomeScreen() {
           </TouchableOpacity>
         </View>
 
+        {recentPnr &&
         <View style={styles.infoContainer}>
           <View style={styles.infoCard}>
-            <Text style={styles.infoCardDate}>TOMORROW, 14 OCT</Text>
+            <Text style={styles.infoCardDate}>{formatDate(recentPnr.dateOfJourney)}</Text>
             <View style={styles.trainInfoRow}>
-              <Text style={styles.trainName}>12002 - Shatabdi Exp</Text>
-              <Text style={styles.confirmed}>CONFIRMED</Text>
+              <Text style={styles.trainName}>{recentPnr.trainName}</Text>
+              <Text style={styles.confirmed}>{recentPnr.passengerList[0].currentStatus}</Text>
             </View>
             <View style={styles.routeContainer}>
-              <Text style={styles.routeTime}>06:00</Text>
+              <Text style={styles.routeTime}>{formatTime(recentPnr.dateOfJourney)}</Text>
               <Text style={styles.routeLine}>---</Text>
-              <Text style={styles.routeTime}>11:50</Text>
+              <Text style={styles.routeTime}>{formatTime(recentPnr.arrivalDate)}</Text>
             </View>
             <View style={styles.routeContainer}>
-              <Text style={styles.routeStation}>NDLS</Text>
-              <Text style={styles.routeStation}>BPL</Text>
+              <Text style={styles.routeStation}>{recentPnr.sourceStation}</Text>
+              <Text style={styles.routeStation}>{recentPnr.destinationStation}</Text>
             </View>
             <View style={styles.coachInfo}>
-              <Text style={{color: AppColors.textPrimary}}>Coach: C12 | Seat: 44</Text>
+              <Text style={{color: AppColors.textPrimary}}>Coach: {recentPnr.passengerList[0].currentCoachId} | Seat: {recentPnr.passengerList[0].currentBerthNo}</Text>
               <TouchableOpacity>
                 <Text style={styles.details}>Details {'>'}</Text>
               </TouchableOpacity>
             </View>
           </View>
         </View>
+        }
 
         <View style={styles.recentSearchesContainer}>
         <ThemedText type="subtitle">Recent Searches</ThemedText>

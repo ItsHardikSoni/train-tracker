@@ -15,6 +15,7 @@ import { SafeAreaView } from "react-native-safe-area-context";
 import { fetchPnrStatusAPI } from "@/api/pnrService";
 import { IconSymbol } from "@/components/icon-symbol";
 import { AppColors } from "@/constants/colors";
+import AsyncStorage from "@react-native-async-storage/async-storage";
 
 const formatDate = (dateStr: string) => {
   if (!dateStr) return "";
@@ -37,6 +38,17 @@ export default function PnrScreen() {
   const [data, setData] = useState<any>(null);
   const [error, setError] = useState<string | null>(null);
 
+  const savePnrData = async (pnr: string, data: any) => {
+    try {
+      const existingPnrData = await AsyncStorage.getItem("pnrData");
+      let pnrData = existingPnrData ? JSON.parse(existingPnrData) : [];
+      pnrData.push({ pnr, data });
+      await AsyncStorage.setItem("pnrData", JSON.stringify(pnrData));
+    } catch (e) {
+      console.error("Failed to save PNR data.", e);
+    }
+  };
+
   const fetchPnrStatus = async () => {
     Keyboard.dismiss(); // Hide keyboard when button is pressed
     if (pnr.length !== 10) {
@@ -51,6 +63,7 @@ export default function PnrScreen() {
 
     if (result.success) {
       setData(result.data);
+      savePnrData(pnr, result.data);
     } else {
       setError(result.error);
     }
