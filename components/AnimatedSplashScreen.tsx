@@ -1,4 +1,3 @@
-import { SplashScreen } from 'expo-router';
 import React, { useEffect, useRef } from 'react';
 import { View, StyleSheet, Animated, Dimensions, Easing, Text } from 'react-native';
 import { ThemedText } from '@/components/themed-text';
@@ -8,8 +7,6 @@ export function AnimatedSplashScreen({ onAnimationFinish }: { onAnimationFinish:
     const translateX = useRef(new Animated.Value(Dimensions.get('window').width)).current;
 
     useEffect(() => {
-        SplashScreen.hideAsync(); // Hide native splash to show this JS splash
-
         Animated.timing(translateX, {
             toValue: -100,
             duration: 3000,

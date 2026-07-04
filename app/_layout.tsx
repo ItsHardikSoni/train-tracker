@@ -1,12 +1,12 @@
-import { SplashScreen, Stack } from 'expo-router';
-import React, { useCallback, useState, useEffect } from 'react';
 import { AnimatedSplashScreen } from '@/components/AnimatedSplashScreen';
 import { Colors } from '@/constants/theme';
-import { ThemeProvider, DefaultTheme, DarkTheme } from '@react-navigation/native';
 import { useColorScheme } from '@/hooks/use-color-scheme';
-import { SafeAreaView } from 'react-native-safe-area-context';
-import { StatusBar } from 'expo-status-bar';
+import { DarkTheme, DefaultTheme, ThemeProvider } from '@react-navigation/native';
 import { useFonts } from 'expo-font';
+import { SplashScreen, Stack } from 'expo-router';
+import { StatusBar } from 'expo-status-bar';
+import React, { useCallback, useEffect, useState } from 'react';
+import { SafeAreaView } from 'react-native-safe-area-context';
 
 // Prevent the native splash screen from auto-hiding
 SplashScreen.preventAutoHideAsync();
@@ -19,10 +19,10 @@ export default function RootLayout() {
     });
 
     useEffect(() => {
-      if (loaded) {
+      if (loaded && isSplashAnimationComplete) {
         SplashScreen.hideAsync();
       }
-    }, [loaded]);
+    }, [loaded, isSplashAnimationComplete]);
 
     const onAnimationFinish = useCallback(() => {
         setSplashAnimationComplete(true);
