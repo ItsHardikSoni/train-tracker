@@ -15,6 +15,21 @@ import { fetchPnrStatusAPI } from "@/api/pnrService";
 import { IconSymbol } from "@/components/icon-symbol";
 import { AppColors } from "@/constants/colors";
 
+const formatDate = (dateStr: string) => {
+  if (!dateStr) return "";
+  return dateStr.split(" ").slice(0, 3).join(" ");
+};
+
+const formatTime = (dateStr: string) => {
+  if (!dateStr) return "";
+  const parts = dateStr.split(" ");
+  if (parts.length < 5) return "";
+  const time = parts[3];
+  const ampm = parts[4];
+  const timeParts = time.split(":");
+  return `${timeParts[0]}:${timeParts[1]} ${ampm}`;
+};
+
 export default function PnrScreen() {
   const [pnr, setPnr] = useState("");
   const [loading, setLoading] = useState(false);
@@ -43,7 +58,10 @@ export default function PnrScreen() {
 
   return (
     <SafeAreaView style={styles.container} edges={["bottom", "left", "right"]}>
-      <ScrollView contentContainerStyle={styles.scrollContent}>
+      <ScrollView
+        contentContainerStyle={styles.scrollContent}
+        keyboardShouldPersistTaps="handled"
+      >
         <ThemedView style={styles.content}>
           <ThemedText type="title">PNR Status</ThemedText>
           <ThemedText style={styles.subtitle}>
@@ -53,8 +71,8 @@ export default function PnrScreen() {
           <View style={styles.inputContainer}>
             <TextInput
               style={styles.input}
-              placeholder="Enter PNR"
-              placeholderTextColor="#999"
+              placeholder="Enter 10-Digit PNR"
+              placeholderTextColor={AppColors.textSecondary}
               value={pnr}
               onChangeText={setPnr}
               keyboardType="numeric"
@@ -68,7 +86,7 @@ export default function PnrScreen() {
             disabled={loading}
           >
             {loading ? (
-              <ActivityIndicator color="#fff" />
+              <ActivityIndicator color={AppColors.background} />
             ) : (
               <Text style={styles.buttonText}>Check PNR Status</Text>
             )}
@@ -80,67 +98,119 @@ export default function PnrScreen() {
             <View style={styles.resultContainer}>
               <View style={styles.card}>
                 <ThemedText style={styles.cardTitle}>
-                  {data.TrainName} ({data.TrainNo})
+                  {data.trainName} ({data.trainNumber})
                 </ThemedText>
                 <View style={styles.stationContainer}>
                   <View style={styles.station}>
                     <ThemedText style={styles.stationCode}>
-                      {data.From}
+                      {data.sourceStation}
                     </ThemedText>
-                    <ThemedText style={styles.stationName}>
-                      {data.BoardingStationName}
+                    <ThemedText style={styles.stationName} numberOfLines={1}>
+                      {data.boardingStationName}
                     </ThemedText>
                   </View>
                   <IconSymbol
                     name="arrow-forward"
                     size={24}
-                    color={AppColors.accent}
+                    color={AppColors.primary}
                     style={{ marginHorizontal: 10 }}
                   />
                   <View style={styles.station}>
                     <ThemedText style={styles.stationCode}>
-                      {data.To}
+                      {data.destinationStation}
                     </ThemedText>
-                    <ThemedText style={styles.stationName}>
-                      {data.ReservationUptoName}
+                    <ThemedText style={styles.stationName} numberOfLines={1}>
+                      {data.reservationUptoName}
                     </ThemedText>
                   </View>
                 </View>
                 <View style={styles.detailsContainer}>
-                  <ThemedText style={styles.detailText}>
-                    Journey Date: {data.JDate}
-                  </ThemedText>
-                  <ThemedText style={styles.detailText}>
-                    Class: {data.Class}
-                  </ThemedText>
+                  <View style={styles.timeDetail}>
+                    <ThemedText style={styles.detailLabel}>Departure</ThemedText>
+                    <ThemedText style={styles.timeText}>
+                      {formatTime(data.dateOfJourney)}
+                    </ThemedText>
+                    <ThemedText style={styles.dateText}>
+                      {formatDate(data.dateOfJourney)}
+                    </ThemedText>
+                  </View>
+                  <View style={styles.timeDetail}>
+                    <ThemedText style={styles.detailLabel}>Arrival</ThemedText>
+                    <ThemedText style={styles.timeText}>
+                      {formatTime(data.arrivalDate)}
+                    </ThemedText>
+                    <ThemedText style={styles.dateText}>
+                      {formatDate(data.arrivalDate)}
+                    </ThemedText>
+                  </View>
+                  <View style={styles.timeDetail}>
+                    <ThemedText style={styles.detailLabel}>Class</ThemedText>
+                    <ThemedText
+                      style={[styles.timeText, { textTransform: "uppercase" }]}
+                    >
+                      {data.journeyClass}
+                    </ThemedText>
+                  </View>
                 </View>
               </View>
 
-              <ThemedText type="subtitle" style={{ marginTop: 20,
-                marginBottom: 10,
-                alignSelf: 'flex-start'
-              }}>
+              <ThemedText
+                type="subtitle"
+                style={{
+                  marginTop: 20,
+                  marginBottom: 10,
+                  alignSelf: "flex-start",
+                }}
+              >
                 Passengers
               </ThemedText>
 
-              {data.PassengerStatus.map((passenger: any, index: number) => (
+              {data.passengerList.map((passenger: any, index: number) => (
                 <View style={styles.card} key={index}>
                   <View style={styles.passengerHeader}>
                     <ThemedText style={styles.passengerCount}>
                       Passenger {index + 1}
                     </ThemedText>
-                    <View style={styles.statusBadge}>
-                      <ThemedText style={styles.statusBadgeText}>
-                        {passenger.CurrentStatus}
-                      </ThemedText>
+                    <View
+                      style={[
+                        styles.statusBadge,
+                        {
+                          backgroundColor:
+                            passenger.currentStatus?.toLowerCase() === "cnf"
+                              ? AppColors.success
+                              : AppColors.warning,
+                        },
+                      ]}
+                    >
+                      <Text style={styles.statusBadgeText}>
+                        {passenger.currentStatus}
+                      </Text>
                     </View>
                   </View>
-                  <ThemedText style={styles.detailText}>
-                    Booking Status: {passenger.BookingStatus}
-                  </ThemedText>
-                  <ThemedText style={styles.detailText}>
-                    Seat: {passenger.CurrentCoach}, {passenger.CurrentBerthNo}
-                  </ThemedText>
+                  <View style={styles.passengerDetails}>
+                    <View style={styles.passengerDetailRow}>
+                      <ThemedText style={styles.detailLabel}>
+                        Booking Status:
+                      </ThemedText>
+                      <ThemedText style={styles.detailValue}>
+                        {passenger.bookingStatus} (
+                        {passenger.bookingCoachId
+                          ? `${passenger.bookingCoachId}, ${passenger.bookingBerthNo} ${passenger.bookingBerthCode}`
+                          : "N/A"}
+                        )
+                      </ThemedText>
+                    </View>
+                    {passenger.currentStatus?.toLowerCase() === "cnf" && (
+                      <View style={styles.passengerDetailRow}>
+                        <ThemedText style={styles.detailLabel}>
+                          Current Seat:
+                        </ThemedText>
+                        <ThemedText style={styles.detailValue}>
+                          {passenger.currentCoach}, {passenger.currentBerthNo}
+                        </ThemedText>
+                      </View>
+                    )}
+                  </View>
                 </View>
               ))}
 
@@ -148,8 +218,18 @@ export default function PnrScreen() {
                 <ThemedText style={styles.detailText}>
                   Charting Status:{" "}
                 </ThemedText>
-                <ThemedText style={styles.chartStatusText}>
-                  {data.ChatPrepared ? "Chart Prepared" : "Chart Not Prepared"}
+                <ThemedText
+                  style={[
+                    styles.chartStatusText,
+                    {
+                      color:
+                        data.chartStatus === "Chart Not Prepared"
+                          ? AppColors.warning
+                          : AppColors.success,
+                    },
+                  ]}
+                >
+                  {data.chartStatus}
                 </ThemedText>
               </View>
             </View>
@@ -163,6 +243,7 @@ export default function PnrScreen() {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
+    backgroundColor: AppColors.background,
   },
   scrollContent: {
     flexGrow: 1,
@@ -170,128 +251,158 @@ const styles = StyleSheet.create({
   content: {
     flex: 1,
     padding: 24,
-    alignItems: "center",
   },
   subtitle: {
     marginTop: 8,
     marginBottom: 24,
     textAlign: "center",
     fontSize: 16,
-    color: "#666",
+    color: AppColors.textSecondary,
   },
   inputContainer: {
     width: "100%",
     marginBottom: 20,
   },
   input: {
-    backgroundColor: "#f0f0f0",
-    paddingHorizontal: 15,
-    paddingVertical: 12,
-    borderRadius: 8,
-    fontSize: 18,
+    backgroundColor: AppColors.surface,
+    paddingHorizontal: 20,
+    paddingVertical: 16,
+    borderRadius: 12,
+    fontSize: 16,
     width: "100%",
     borderWidth: 1,
-    borderColor: "#ddd",
+    borderColor: AppColors.border,
+    color: AppColors.textPrimary,
   },
   button: {
-    backgroundColor: AppColors.accent,
-    padding: 15,
-    borderRadius: 8,
+    backgroundColor: AppColors.primary,
+    padding: 16,
+    borderRadius: 12,
     alignItems: "center",
     width: "100%",
   },
   buttonText: {
-    color: "#fff",
-    fontSize: 18,
+    color: AppColors.background,
+    fontSize: 16,
     fontWeight: "bold",
   },
   errorText: {
-    color: "red",
+    color: AppColors.error,
     marginTop: 16,
+    textAlign: "center",
   },
   resultContainer: {
     marginTop: 24,
     width: "100%",
   },
   card: {
-    backgroundColor: "white",
-    borderRadius: 12,
+    backgroundColor: AppColors.surface,
+    borderRadius: 16,
     padding: 16,
     marginBottom: 16,
-    shadowColor: "#000",
-    shadowOffset: {
-      width: 0,
-      height: 2,
-    },
-    shadowOpacity: 0.1,
-    shadowRadius: 4,
-    elevation: 3,
+    borderWidth: 1,
+    borderColor: AppColors.border,
   },
   cardTitle: {
     fontSize: 18,
     fontWeight: "bold",
-    marginBottom: 10,
-    color: AppColors.accent,
+    marginBottom: 12,
+    color: AppColors.primary,
   },
   stationContainer: {
     flexDirection: "row",
-    alignItems: "center",
-    justifyContent: "space-between",
+    alignItems: "flex-start",
+    justifyContent: "space-around",
     marginBottom: 10,
   },
   station: {
     alignItems: "center",
+    flex: 1,
   },
   stationCode: {
-    fontSize: 20,
+    fontSize: 22,
     fontWeight: "bold",
+    color: AppColors.textPrimary,
   },
   stationName: {
     fontSize: 12,
-    color: "#666",
+    color: AppColors.textSecondary,
+    marginTop: 2,
+    textAlign: "center",
   },
   detailsContainer: {
-    marginTop: 10,
+    marginTop: 12,
     borderTopWidth: 1,
-    borderTopColor: "#eee",
-    paddingTop: 10,
-    flexDirection: 'row',
-    justifyContent: 'space-between'
+    borderTopColor: AppColors.border,
+    paddingTop: 12,
+    flexDirection: "row",
+    justifyContent: "space-between",
   },
   detailText: {
     fontSize: 14,
-    color: "#333",
-    marginBottom: 4,
+    color: AppColors.textSecondary,
   },
   passengerHeader: {
     flexDirection: "row",
     justifyContent: "space-between",
     alignItems: "center",
-    marginBottom: 10,
   },
   passengerCount: {
     fontSize: 16,
     fontWeight: "bold",
+    color: AppColors.textPrimary,
   },
   statusBadge: {
-    backgroundColor: AppColors.accent,
     borderRadius: 20,
-    paddingVertical: 4,
-    paddingHorizontal: 10,
+    paddingVertical: 6,
+    paddingHorizontal: 12,
   },
   statusBadgeText: {
-    color: "white",
+    color: AppColors.background,
     fontSize: 12,
-    fontWeight: 'bold'
+    fontWeight: "bold",
   },
   chartStatus: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    justifyContent: 'space-between'
+    flexDirection: "row",
+    alignItems: "center",
+    justifyContent: "space-between",
   },
   chartStatusText: {
     fontSize: 14,
-    fontWeight: 'bold',
-    color: AppColors.accent
-  }
+    fontWeight: "bold",
+  },
+  timeDetail: {
+    alignItems: "center",
+  },
+  detailLabel: {
+    fontSize: 12,
+    color: AppColors.textSecondary,
+    marginBottom: 4,
+  },
+  timeText: {
+    fontSize: 16,
+    fontWeight: "bold",
+    color: AppColors.textPrimary,
+  },
+  dateText: {
+    fontSize: 12,
+    color: AppColors.textSecondary,
+    marginTop: 2,
+  },
+  passengerDetails: {
+    marginTop: 12,
+    borderTopWidth: 1,
+    borderTopColor: AppColors.border,
+    paddingTop: 12,
+  },
+  passengerDetailRow: {
+    flexDirection: "row",
+    justifyContent: "space-between",
+    marginBottom: 4,
+  },
+  detailValue: {
+    fontSize: 14,
+    fontWeight: "500",
+    color: AppColors.textPrimary,
+  },
 });
