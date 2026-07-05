@@ -33,7 +33,8 @@ export const fetchLiveTrainStatusAPI = async (trainNo: string) => {
       }
     }
 
-    const result = await response.json();
+    const resultText = await response.text();
+    const result = JSON.parse(resultText);
 
     if (result.status === false) {
       return { success: false, error: result.message || "Unknown API error" };

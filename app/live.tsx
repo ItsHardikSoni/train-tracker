@@ -18,7 +18,7 @@ import { AppColors } from "@/constants/colors";
 export default function LiveTrainStatusScreen() {
   const [trainNo, setTrainNo] = useState("");
   const [loading, setLoading] = useState(false);
-  const [data, setData] = useState<any>(null);
+  const [data, setData] = useState<any[] | null>(null);
   const [error, setError] = useState<string | null>(null);
 
   const fetchLiveTrainStatus = async () => {
@@ -79,57 +79,36 @@ export default function LiveTrainStatusScreen() {
 
           {error && <Text style={styles.errorText}>{error}</Text>}
 
-          {data && (
+          {data && Array.isArray(data) && (
             <View style={styles.resultContainer}>
-              <View style={styles.card}>
-                <ThemedText style={styles.cardTitle}>
-                  Train No: {data.train_no}
-                </ThemedText>
-                <View style={styles.detailsContainer}>
-                  <View style={styles.detailItem}>
-                    <ThemedText style={styles.detailLabel}>
-                      Running Status:
-                    </ThemedText>
-                    <ThemedText style={styles.detailValue}>
-                      {data.running_status === 0 ? "On time" : "Delayed"}
-                    </ThemedText>
+              <ThemedText style={styles.cardTitle}>
+                Train No: {trainNo}
+              </ThemedText>
+              <ScrollView>
+                {data.map((station, index) => (
+                  <View key={index} style={styles.card}>
+                    <ThemedText style={styles.stationName}>{station.station}</ThemedText>
+                    <View style={styles.detailsContainer}>
+                      <View style={styles.detailItem}>
+                        <ThemedText style={styles.detailLabel}>Arrives:</ThemedText>
+                        <ThemedText style={styles.detailValue}>{station.arrives}</ThemedText>
+                      </View>
+                      <View style={styles.detailItem}>
+                        <ThemedText style={styles.detailLabel}>Departs:</ThemedText>
+                        <ThemedText style={styles.detailValue}>{station.departs}</ThemedText>
+                      </View>
+                      <View style={styles.detailItem}>
+                        <ThemedText style={styles.detailLabel}>Day/Date:</ThemedText>
+                        <ThemedText style={styles.detailValue}>{station.day_date}</ThemedText>
+                      </View>
+                      <View style={styles.detailItem}>
+                        <ThemedText style={styles.detailLabel}>Delay:</ThemedText>
+                        <ThemedText style={[styles.detailValue, styles.delayText]}>{station.delay}</ThemedText>
+                      </View>
+                    </View>
                   </View>
-                  <View style={styles.detailItem}>
-                    <ThemedText style={styles.detailLabel}>Station:</ThemedText>
-                    <ThemedText style={styles.detailValue}>
-                      {data.station}
-                    </ThemedText>
-                  </View>
-                  <View style={styles.detailItem}>
-                    <ThemedText style={styles.detailLabel}>Date:</ThemedText>
-                    <ThemedText style={styles.detailValue}>
-                      {data.day_date}
-                    </ThemedText>
-                  </View>
-                  <View style={styles.detailItem}>
-                    <ThemedText style={styles.detailLabel}>
-                      Arrives:
-                    </ThemedText>
-                    <ThemedText style={styles.detailValue}>
-                      {data.arrives}
-                    </ThemedText>
-                  </View>
-                  <View style={styles.detailItem}>
-                    <ThemedText style={styles.detailLabel}>
-                      Departs:
-                    </ThemedText>
-                    <ThemedText style={styles.detailValue}>
-                      {data.departs}
-                    </ThemedText>
-                  </View>
-                  <View style={styles.detailItem}>
-                    <ThemedText style={styles.detailLabel}>Delay:</ThemedText>
-                    <ThemedText style={styles.detailValue}>
-                      {data.delay}
-                    </ThemedText>
-                  </View>
-                </View>
-              </View>
+                ))}
+              </ScrollView>
             </View>
           )}
         </ThemedView>
@@ -206,6 +185,13 @@ const styles = StyleSheet.create({
     fontWeight: "bold",
     marginBottom: 12,
     color: AppColors.primary,
+    textAlign: 'center',
+  },
+  stationName: {
+    fontSize: 16,
+    fontWeight: 'bold',
+    marginBottom: 10,
+    color: AppColors.textPrimary,
   },
   detailsContainer: {
     marginTop: 12,
@@ -226,5 +212,9 @@ const styles = StyleSheet.create({
     fontSize: 14,
     fontWeight: "500",
     color: AppColors.textPrimary,
+  },
+  delayText: {
+    color: AppColors.error,
+    fontWeight: 'bold',
   },
 });
