@@ -7,7 +7,6 @@ export const fetchLiveTrainStatusAPI = async (trainNo: string) => {
     return { success: false, error: "Train number cannot be empty." };
   }
 
-  // Manually create the URL-encoded body string to avoid polyfill issues.
   const body = `train_no=${trainNo}`;
 
   const options = {
@@ -22,22 +21,29 @@ export const fetchLiveTrainStatusAPI = async (trainNo: string) => {
 
   try {
     const response = await fetch(LIVE_TRAIN_STATUS_URL, options);
-    const result = await response.json();
+    const resultText = await response.text();
 
-    // The API sends specific error messages in the body, even with a 200 status.
-    if (result.error) {
-      return { success: false, error: result.error };
+    try {
+      const result = JSON.parse(resultText);
+
+      if (result.error) {
+        return { success: false, error: result.error };
+      }
+
+      if (result.status === false) {
+        return { success: false, error: result.message || "Unknown API error" };
+      }
+
+      if (!response.ok) {
+        return { success: false, error: `API Error: ${response.status}` };
+      }
+
+      return { success: true, data: result.data };
+    } catch (jsonError) {
+      // This will catch errors if the response is not valid JSON.
+      return { success: false, error: "Failed to parse server response. Please try again." };
     }
 
-    if (result.status === false) {
-      return { success: false, error: result.message || "Unknown API error" };
-    }
-
-    if (!response.ok) {
-      return { success: false, error: `API Error: ${response.status}` };
-    }
-
-    return { success: true, data: result.data };
   } catch (error: any) {
     return {
       success: false,
