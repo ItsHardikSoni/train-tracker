@@ -6,7 +6,7 @@ import { useRouter } from 'expo-router';
 import { ScrollView, StyleSheet, Text, TextInput, TouchableOpacity, View, ActivityIndicator, Keyboard } from 'react-native';
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import { useEffect, useState } from 'react';
-import { fetchLiveTrainStatusAPI } from '@/api/liveTrainService';
+import { fetchTrainRouteAPI } from '@/api/trainRouteService';
 
 const formatDate = (dateStr: string) => {
   if (!dateStr) return "";
@@ -35,7 +35,7 @@ export default function HomeScreen() {
   const [recentPnr, setRecentPnr] = useState<any>(null);
   const [trainNo, setTrainNo] = useState("");
   const [loading, setLoading] = useState(false);
-  const [data, setData] = useState<any[] | null>(null);
+  const [data, setData] = useState<any | null>(null);
   const [error, setError] = useState<string | null>(null);
 
   useEffect(() => {
@@ -65,7 +65,7 @@ export default function HomeScreen() {
     setData(null);
     setError(null);
 
-    const result = await fetchLiveTrainStatusAPI(trainNo);
+    const result = await fetchTrainRouteAPI(trainNo);
 
     if (result.success) {
       setData(result.data);
@@ -104,19 +104,23 @@ export default function HomeScreen() {
 
         {error && <Text style={styles.errorText}>{error}</Text>}
 
-        {data && Array.isArray(data) && (
+        {data && (
           <View style={styles.resultContainer}>
-            <Text style={styles.resultTitle}>Train Status</Text>
-            {data.map((station, index) => (
+            <Text style={styles.resultTitle}>Train Route</Text>
+            <View style={styles.trainDetailCard}>
+              <Text style={styles.trainDetailText}>Train No: {data.train_no}</Text>
+              <Text style={styles.trainDetailText}>Train Name: {data.train_name}</Text>
+            </View>
+            {data.route.map((station: any, index: number) => (
               <View key={index} style={styles.stationCard}>
                 <Text style={styles.stationName}>{station.station_name} ({station.station_code})</Text>
                 <View style={styles.detailRow}>
                   <Text style={styles.detailLabel}>Arrival:</Text>
-                  <Text style={styles.detailValue}>{station.arrival}</Text>
+                  <Text style={styles.detailValue}>{station.arrival_time}</Text>
                 </View>
                 <View style={styles.detailRow}>
                   <Text style={styles.detailLabel}>Departure:</Text>
-                  <Text style={styles.detailValue}>{station.departure}</Text>
+                  <Text style={styles.detailValue}>{station.departure_time}</Text>
                 </View>
                 <View style={styles.detailRow}>
                   <Text style={styles.detailLabel}>Halt (mins):</Text>
@@ -124,11 +128,11 @@ export default function HomeScreen() {
                 </View>
                 <View style={styles.detailRow}>
                   <Text style={styles.detailLabel}>Distance (km):</Text>
-                  <Text style={styles.detailValue}>{station.distance_km}</Text>
+                  <Text style={styles.detailValue}>{station.distance_from_source}</Text>
                 </View>
                 <View style={styles.detailRow}>
                   <Text style={styles.detailLabel}>Day:</Text>
-                  <Text style={styles.detailValue}>{station.day}</Text>
+                  <Text style={styles.detailValue}>{station.day_of_journey}</Text>
                 </View>
               </View>
             ))}
@@ -360,6 +364,19 @@ const styles = StyleSheet.create({
     fontWeight: 'bold',
     color: AppColors.textPrimary,
     marginBottom: 12,
+  },
+  trainDetailCard: {
+    backgroundColor: AppColors.surface,
+    borderRadius: 8,
+    padding: 16,
+    marginBottom: 12,
+    borderColor: AppColors.border,
+    borderWidth: 1,
+  },
+  trainDetailText: {
+    fontSize: 16,
+    color: AppColors.textPrimary,
+    marginBottom: 4,
   },
   stationCard: {
     backgroundColor: AppColors.surface,
