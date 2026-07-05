@@ -3,9 +3,10 @@ import { ThemedView } from '@/components/themed-view';
 import { IconSymbol } from '@/components/ui/icon-symbol';
 import { AppColors } from '@/constants/colors';
 import { useRouter } from 'expo-router';
-import { ScrollView, StyleSheet, Text, TextInput, TouchableOpacity, View } from 'react-native';
+import { ScrollView, StyleSheet, Text, TextInput, TouchableOpacity, View, ActivityIndicator, Keyboard } from 'react-native';
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import { useEffect, useState } from 'react';
+import { fetchLiveTrainStatusAPI } from '@/api/liveTrainService';
 
 const formatDate = (dateStr: string) => {
   if (!dateStr) return "";
@@ -32,6 +33,10 @@ const formatTime = (dateStr: string) => {
 export default function HomeScreen() {
   const router = useRouter();
   const [recentPnr, setRecentPnr] = useState<any>(null);
+  const [trainNo, setTrainNo] = useState("");
+  const [loading, setLoading] = useState(false);
+  const [data, setData] = useState<any[] | null>(null);
+  const [error, setError] = useState<string | null>(null);
 
   useEffect(() => {
     const getRecentPnr = async () => {
@@ -50,8 +55,29 @@ export default function HomeScreen() {
     getRecentPnr();
   }, []);
 
+  const handleTrackTrain = async () => {
+    Keyboard.dismiss();
+    if (!trainNo) {
+      setError("Please enter a train number.");
+      return;
+    }
+    setLoading(true);
+    setData(null);
+    setError(null);
+
+    const result = await fetchLiveTrainStatusAPI(trainNo);
+
+    if (result.success) {
+      setData(result.data);
+    } else {
+      setError(result.error);
+    }
+
+    setLoading(false);
+  };
+
   return (
-      <ScrollView style={styles.container} showsVerticalScrollIndicator={false}>
+      <ScrollView style={styles.container} showsVerticalScrollIndicator={false} keyboardShouldPersistTaps="handled">
         <ThemedView style={styles.header}>
           <IconSymbol name="line.horizontal.3" size={24} color={AppColors.background} />
           <ThemedText style={styles.title} type="title">Train Tracker</ThemedText>
@@ -61,13 +87,53 @@ export default function HomeScreen() {
         <View style={styles.searchContainer}>
           <TextInput
             style={styles.searchInput}
-            placeholder="Search train name or number"
+            placeholder="Search train number"
             placeholderTextColor={AppColors.textSecondary}
+            value={trainNo}
+            onChangeText={setTrainNo}
+            keyboardType="numeric"
           />
-          <TouchableOpacity style={styles.trackButton}>
-            <Text style={styles.trackButtonText}>Track</Text>
+          <TouchableOpacity style={styles.trackButton} onPress={handleTrackTrain} disabled={loading}>
+            {loading ? (
+              <ActivityIndicator color={AppColors.background} />
+            ) : (
+              <Text style={styles.trackButtonText}>Track</Text>
+            )}
           </TouchableOpacity>
         </View>
+
+        {error && <Text style={styles.errorText}>{error}</Text>}
+
+        {data && Array.isArray(data) && (
+          <View style={styles.resultContainer}>
+            <Text style={styles.resultTitle}>Train Status</Text>
+            {data.map((station, index) => (
+              <View key={index} style={styles.stationCard}>
+                <Text style={styles.stationName}>{station.station_name} ({station.station_code})</Text>
+                <View style={styles.detailRow}>
+                  <Text style={styles.detailLabel}>Arrival:</Text>
+                  <Text style={styles.detailValue}>{station.arrival}</Text>
+                </View>
+                <View style={styles.detailRow}>
+                  <Text style={styles.detailLabel}>Departure:</Text>
+                  <Text style={styles.detailValue}>{station.departure}</Text>
+                </View>
+                <View style={styles.detailRow}>
+                  <Text style={styles.detailLabel}>Halt (mins):</Text>
+                  <Text style={styles.detailValue}>{station.halt_minutes}</Text>
+                </View>
+                <View style={styles.detailRow}>
+                  <Text style={styles.detailLabel}>Distance (km):</Text>
+                  <Text style={styles.detailValue}>{station.distance_km}</Text>
+                </View>
+                <View style={styles.detailRow}>
+                  <Text style={styles.detailLabel}>Day:</Text>
+                  <Text style={styles.detailValue}>{station.day}</Text>
+                </View>
+              </View>
+            ))}
+          </View>
+        )}
 
         <View style={styles.cardsContainer}>
           <TouchableOpacity style={styles.card} onPress={() => router.push('/pnr')}>
@@ -174,10 +240,12 @@ const styles = StyleSheet.create({
     borderRadius: 8,
     paddingHorizontal: 16,
     justifyContent: 'center',
+    minWidth: 80,
   },
   trackButtonText: {
     color: AppColors.background,
     fontWeight: 'bold',
+    textAlign: 'center',
   },
   cardsContainer: {
     flexDirection: 'row',
@@ -276,5 +344,47 @@ const styles = StyleSheet.create({
     marginTop: 8,
     borderColor: AppColors.border,
     borderWidth: 1,
+  },
+  errorText: {
+    color: AppColors.error,
+    marginTop: 16,
+    textAlign: "center",
+    paddingHorizontal: 16,
+  },
+  resultContainer: {
+    paddingHorizontal: 16,
+    marginTop: 16,
+  },
+  resultTitle: {
+    fontSize: 20,
+    fontWeight: 'bold',
+    color: AppColors.textPrimary,
+    marginBottom: 12,
+  },
+  stationCard: {
+    backgroundColor: AppColors.surface,
+    borderRadius: 8,
+    padding: 16,
+    marginBottom: 12,
+    borderColor: AppColors.border,
+    borderWidth: 1,
+  },
+  stationName: {
+    fontSize: 16,
+    fontWeight: 'bold',
+    color: AppColors.textPrimary,
+    marginBottom: 8,
+  },
+  detailRow: {
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    marginBottom: 4,
+  },
+  detailLabel: {
+    color: AppColors.textSecondary,
+  },
+  detailValue: {
+    color: AppColors.textPrimary,
+    fontWeight: '500',
   },
 });
