@@ -1,3 +1,4 @@
+
 import 'dotenv/config';
 
 export default {
@@ -30,13 +31,7 @@ export default {
     },
     plugins: [
       "expo-router",
-      "expo-font",
-      [
-        "expo-symbols",
-        {
-          "source": ["SF", "Entypo"]
-        }
-      ]
+      "expo-font"
     ],
     experiments: {
       typedRoutes: true,
