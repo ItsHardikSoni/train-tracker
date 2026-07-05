@@ -3,6 +3,13 @@ import { API_KEY, API_HOST } from "./apiConfig";
 const LIVE_TRAIN_STATUS_URL = `https://${API_HOST}/train-running-status.php`;
 
 export const fetchLiveTrainStatusAPI = async (trainNo: string) => {
+  if (!trainNo || trainNo.trim() === "") {
+    return { success: false, error: "Train number cannot be empty." };
+  }
+
+  // Manually create the URL-encoded body string to avoid polyfill issues.
+  const body = `train_no=${trainNo}`;
+
   const options = {
     method: "POST",
     headers: {
@@ -10,41 +17,31 @@ export const fetchLiveTrainStatusAPI = async (trainNo: string) => {
       "x-rapidapi-host": API_HOST,
       "Content-Type": "application/x-www-form-urlencoded",
     },
-    body: new URLSearchParams({
-      train_no: trainNo,
-    }),
+    body: body,
   };
 
   try {
     const response = await fetch(LIVE_TRAIN_STATUS_URL, options);
-    if (!response.ok) {
-      const errorText = await response.text();
-      try {
-        const errorJson = JSON.parse(errorText);
-        return {
-          success: false,
-          error: errorJson.message || `HTTP error! status: ${response.status}`,
-        };
-      } catch (e) {
-        return {
-          success: false,
-          error: `HTTP error! status: ${response.status} - ${errorText}`,
-        };
-      }
-    }
+    const result = await response.json();
 
-    const resultText = await response.text();
-    const result = JSON.parse(resultText);
+    // The API sends specific error messages in the body, even with a 200 status.
+    if (result.error) {
+      return { success: false, error: result.error };
+    }
 
     if (result.status === false) {
       return { success: false, error: result.message || "Unknown API error" };
+    }
+
+    if (!response.ok) {
+      return { success: false, error: `API Error: ${response.status}` };
     }
 
     return { success: true, data: result.data };
   } catch (error: any) {
     return {
       success: false,
-      error: error.message || "An unexpected error occurred",
+      error: "An unexpected error occurred. Please check your network connection and try again.",
     };
   }
 };
