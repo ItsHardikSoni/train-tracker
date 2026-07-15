@@ -7,11 +7,8 @@
     "icon": "./assets/images/icon.png",
     "scheme": "app",
     "userInterfaceStyle": "automatic",
-    "newArchEnabled": true,
-    "jsEngine": "hermes",
     "ios": {
       "supportsTablet": true,
-      "jsEngine": "hermes",
       "bundleIdentifier": "com.anonymous.traintracker"
     },
     "android": {
@@ -21,9 +18,7 @@
         "backgroundImage": "./assets/images/icon.png",
         "monochromeImage": "./assets/images/icon.png"
       },
-      "edgeToEdgeEnabled": true,
       "predictiveBackGestureEnabled": false,
-      "jsEngine": "hermes",
       "softwareKeyboardLayoutMode": "pan",
       "package": "com.anonymous.traintracker"
     },
